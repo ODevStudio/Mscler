@@ -1,7 +1,7 @@
 # Mscler
 Mscler Workout Planner, let´s you view workouts and generate effective training plans. Workout tracker.
 
-Working Site [Mscler](https://odevstudio.de/)
+Working Site [Mscler](https://odevstudio.de/mscler.html)
 
 
 ## License
