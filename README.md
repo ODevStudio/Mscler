@@ -1,4 +1,4 @@
-# 💪 Mscler - Ultimate Workout Planner
+# 💪 Mscler - Workout Planner
 
 > **A lightweight, privacy-focused, and highly customizable workout generator and tracker.**
 
