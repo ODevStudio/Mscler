@@ -113,6 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
 function init() {
   let savedLang  = localStorage.getItem(LS_LANG)  || 'en';
   const savedTheme = localStorage.getItem(LS_THEME) || 'light';
+  
+  // Load saved difficulty or default to "Advanced"
+  selectedDifficulty = localStorage.getItem("selectedDifficulty") || "Advanced";
 
   // Validate saved lang
   if (!locales[savedLang]) savedLang = 'en';
@@ -165,6 +168,7 @@ function onSelectMuscle(muscle) {
 
 function onSelectDifficulty(difficulty) {
     selectedDifficulty = difficulty;
+    localStorage.setItem("selectedDifficulty", difficulty);
     renderDifficulty(selectedDifficulty, onSelectDifficulty);
     updateFilteredExercises();
 }
