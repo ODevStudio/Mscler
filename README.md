@@ -8,6 +8,8 @@
 ![Platform](https://img.shields.io/badge/Platform-Web-orange)
 ![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)
 
+[Live Demo](https://odevstudio.de/mscler.html)
+
 ---
 
 ## 🌟 Key Features
