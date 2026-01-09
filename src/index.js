@@ -114,10 +114,8 @@ function init() {
   let savedLang  = localStorage.getItem(LS_LANG)  || 'en';
   const savedTheme = localStorage.getItem(LS_THEME) || 'light';
   
-  // Load saved difficulty or default to "Advanced"
   selectedDifficulty = localStorage.getItem("selectedDifficulty") || "Advanced";
 
-  // Validate saved lang
   if (!locales[savedLang]) savedLang = 'en';
 
   setLanguageDirect(savedLang);
@@ -193,7 +191,6 @@ function onToggleEq(equipment) {
     }
     saveAvailableEquipment(availableEquipment);
     renderAvailableEquipment(availableEquipment, onToggleEq);
-    // Sync main filter buttons
     renderEquipment(availableEquipment, onFilterEq);
     updateFilteredExercises();
 }
@@ -258,7 +255,6 @@ function generateTrainingPlan() {
     const days = parseInt(document.getElementById('daysRange').value);
     localStorage.setItem("trainingDays", days.toString());
     
-    // Call logic module
     plan = generatePlanLogic(days, availableEquipment, muscleSliderValues, selectedDifficulty);
     
     savePlan(plan);
@@ -266,8 +262,6 @@ function generateTrainingPlan() {
 }
 
 function shuffleExercise(dayIndex, exerciseIndex, muscleGroup, equipment) {
-    // Basic shuffle logic re-implementation or calling logic module
-    // For simplicity, reusing logic similar to original but accessing global plan
     const day = plan.find(d => d.day === dayIndex);
     if (!day) return;
 
@@ -290,7 +284,7 @@ function shuffleExercise(dayIndex, exerciseIndex, muscleGroup, equipment) {
     if (alternatives.length === 0) {
          alternatives = exercises.filter(ex =>
             ex.muscleGroup === muscleGroup &&
-            ex.equipment === equipment && // Relaxed check
+            ex.equipment === equipment &&
             ex.favorit !== -1 &&
             ex.id !== currentExercise.id
         );
@@ -312,7 +306,6 @@ function shuffleExercise(dayIndex, exerciseIndex, muscleGroup, equipment) {
 function updateFilteredExercises() {
     filteredExercises = [...exercises];
     
-    // Difficulty Filter
     const difficultyIndex = difficultyLevels.indexOf(selectedDifficulty);
     filteredExercises = filteredExercises.filter(ex => {
         return difficultyLevels.indexOf(ex.difficulty) <= difficultyIndex;
@@ -328,7 +321,6 @@ function updateFilteredExercises() {
     }
     filteredExercises.sort((a, b) => b.effectiveness - a.effectiveness);
     
-    // Pass handler for favorites
     renderExercises(filteredExercises, openVideo, (e, ex, val) => {
         e.stopPropagation();
         ex.favorit = ex.favorit === val ? 0 : val;
@@ -362,7 +354,6 @@ function toggleTheme() {
 }
 
 function updateUILanguage() {
-    // Basic implementation using locales
     const ui = locales[lang].ui;
     const elements = {
         'musclegrp': ui.muscle_groups,
@@ -409,13 +400,10 @@ function toggleLanguage() {
   renderEquipment(availableEquipment, onFilterEq);
   renderAvailableEquipment(availableEquipment, onToggleEq);
   renderDifficulty(selectedDifficulty, onSelectDifficulty);
-  
-  // Re-render plan if it exists (but don't toggle visibility)
   if (plan && plan.length > 0) {
       renderTrainingPlan(plan, localStorage.getItem("trainingDays") || plan.length, openVideo, shuffleExercise);
   }
   
-  // Re-render current exercise list view
   if (selectedCategory) {
       renderMuscleGroups(selectedCategory, selectedMuscleGroup, onSelectMuscle);
   }
