@@ -33,7 +33,7 @@
 * **Smart Shuffling:** Don't like a specific exercise in your generated plan? Click the shuffle button (🔀) to swap it for a biomechanically similar alternative based on your available equipment.
 
 ### 🔒 Privacy Focused
-* **100% Client-Side:** No server, no accounts, no tracking.
+* **Client-Side:** No server, no accounts, no tracking, only embedded youtube videos.
 * **Local Storage:** All your settings, plans, logs, and favorites are saved securely in your device's `localStorage`.
 
 ---
