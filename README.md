@@ -66,9 +66,9 @@ The project maintains a clean structure without heavy `node_modules` or build st
 
 ```text
 Mscler/
-├── index.html       # Main application logic and UI structure
-├── style.css        # CSS variables, theming, and responsive layout
-├── exercises.js     # Database of 180+ exercises and definitions
+├── mscler.html      # Main application logic and UI structure
+├── dist             # minified stylesheet and javasript for execution
+├── src              # source files with clear names and destinction
 └── README.md        # Documentation
 
 
