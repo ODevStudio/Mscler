@@ -58,7 +58,7 @@ Since Mscler is built with Vanilla HTML/CSS/JS, running it is incredibly simple.
     cd mscler
     ```
 3.  **Run the app:**
-    * Simply double-click `index.html` to open it in your browser.
+    * Simply double-click `mscler.html` to open it in your browser.
     * *Optional:* For a better development experience, you can use a simple local server (e.g., Live Server for VS Code).
 
 ---
