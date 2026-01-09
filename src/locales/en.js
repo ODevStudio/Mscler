@@ -39,7 +39,18 @@ export default {
     "plan_push_strength": "Push (Strength)",
     "plan_pull_strength": "Pull (Strength)",
     "plan_legs_strength": "Legs & Core (Strength)",
-    "plan_none": "No plan for this days count"
+    "plan_none": "No plan for this days count",
+    "training_tips_title": "Training tips",
+    "tips": [
+      "Warm up well before each workout (5-10 minutes).",
+      "Choose weights with which you can barely manage the last repetition of your last set.",
+      "Execute each exercise in a controlled manner and focus on the working muscle.",
+      "Normal training days, 2-3 sets, 8-12 repetitions for optimal muscle growth.",
+      "On special strength training 2-3 sets, 6-8 repetitions for optimal development.",
+      "Pause for 1-3 minutes between sets so that the pulse and muscles can recover.",
+      "Increase the weights once you have overcome the repetition limit.",
+      "Make sure you recover sufficiently between training sessions."
+    ]
   },
   "difficulty": {
     "Novice": "Novice",

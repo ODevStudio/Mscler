@@ -39,7 +39,18 @@ export default {
     "plan_push_strength": "Empuje (Fuerza)",
     "plan_pull_strength": "Tracción (Fuerza)",
     "plan_legs_strength": "Piernas y core (Fuerza)",
-    "plan_none": "No hay plan para esta cantidad de días"
+    "plan_none": "No hay plan para esta cantidad de días",
+    "training_tips_title": "Consejos de entrenamiento",
+    "tips": [
+      "Calienta bien antes de cada entrenamiento (5-10 minutos).",
+      "Elige pesos con los que apenas puedas completar la última repetición de tu última serie.",
+      "Ejecuta cada ejercicio de manera controlada y concéntrate en el músculo que trabaja.",
+      "Días de entrenamiento normal: 2-3 series, 8-12 repeticiones para un crecimiento muscular óptimo.",
+      "En entrenamiento de fuerza especial: 2-3 series, 6-8 repeticiones para un desarrollo óptimo.",
+      "Descansa de 1 a 3 minutos entre series para que el pulso y los músculos se recuperen.",
+      "Aumenta los pesos una vez que hayas superado el límite de repeticiones.",
+      "Asegúrate de recuperarte lo suficiente entre sesiones de entrenamiento."
+    ]
   },
   "difficulty": {
     "Novice": "Novato",

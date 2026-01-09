@@ -39,7 +39,18 @@ export default {
     "plan_push_strength": "Poussée (Force)",
     "plan_pull_strength": "Tirage (Force)",
     "plan_legs_strength": "Jambes et tronc (Force)",
-    "plan_none": "Pas de plan pour ce nombre de jours"
+    "plan_none": "Pas de plan pour ce nombre de jours",
+    "training_tips_title": "Conseils d'entraînement",
+    "tips": [
+      "Échauffez-vous bien avant chaque séance (5-10 minutes).",
+      "Choisissez des poids avec lesquels vous pouvez à peine terminer la dernière répétition de votre dernière série.",
+      "Exécutez chaque exercice de manière contrôlée et concentrez-vous sur le muscle travaillé.",
+      "Jours d'entraînement normal : 2-3 séries, 8-12 répétitions pour une croissance musculaire optimale.",
+      "Lors d'entraînements de force spéciaux : 2-3 séries, 6-8 répétitions pour un développement optimal.",
+      "Faites une pause de 1 à 3 minutes entre les séries pour que le pouls et les muscles puissent récupérer.",
+      "Augmentez les poids une fois que vous avez dépassé la limite de répétitions.",
+      "Assurez-vous de récupérer suffisamment entre les séances d'entraînement."
+    ]
   },
   "difficulty": {
     "Novice": "Novice",

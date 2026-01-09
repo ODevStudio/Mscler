@@ -447,6 +447,30 @@ export function renderTrainingPlan(plan, days, onOpenVideo, onShuffle) {
 
     planWrapper.appendChild(dayCard);
   });
+
+  // Render Tips
+  const tips = locales[lang].ui.tips || [];
+  if (tips.length > 0) {
+      const tipsDiv = document.createElement('div');
+      tipsDiv.className = 'tips gradient-border';
+      
+      const h4 = document.createElement('h4');
+      h4.textContent = (locales[lang].ui.training_tips_title || 'Training tips') + ':';
+      tipsDiv.appendChild(h4);
+      
+      const ul = document.createElement('ul');
+      ul.style.marginLeft = '20px';
+      ul.style.marginTop = '10px';
+      
+      tips.forEach(tip => {
+          const li = document.createElement('li');
+          li.textContent = tip;
+          ul.appendChild(li);
+      });
+      
+      tipsDiv.appendChild(ul);
+      container.appendChild(tipsDiv);
+  }
 }
 
 export function updateState(newState) {

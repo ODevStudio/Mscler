@@ -39,7 +39,18 @@ export default {
     "plan_push_strength": "Push (Kraft)",
     "plan_pull_strength": "Pull (Kraft)",
     "plan_legs_strength": "Beine & Rumpf (Kraft)",
-    "plan_none": "Kein Plan für diese Anzahl an Tagen"
+    "plan_none": "Kein Plan für diese Anzahl an Tagen",
+    "training_tips_title": "Trainingstipps",
+    "tips": [
+      "Wärme dich vor jedem Training gut auf (5-10 Minuten).",
+      "Wähle Gewichte, mit denen du die letzte Wiederholung beim letzten Set gerade noch schaffst.",
+      "Führe jede Übung kontrolliert aus und konzentriere dich auf den arbeitenden Muskel.",
+      "An normalen Tagen 2-3 Sätze, 8-12 Wiederholungen für optimales Muskelwachstum.",
+      "Bei Stärketraining 2-3 Sätze, 6-8 Wiederholungen für optimale Entwicklung.",
+      "Pausiere für 1-3 Minuten zwischen den Sets, damit der Puls und die Muskeln sich erholen.",
+      "Erhöhe die Gewichte, sobald du das Wiederholungslimit überschreiten kannst.",
+      "Achte auf ausreichende Erholung zwischen den Trainingseinheiten."
+    ]
   },
   "difficulty": {
     "Novice": "Anfänger",
