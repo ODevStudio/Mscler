@@ -28,7 +28,7 @@ export default {
     "exercises_btn": "Exercises",
     "training_btn": "Training",
     "difficulty_level": "Difficulty Level",
-    "plan_full_body": "Full Body (Compound Focus)",
+    "plan_full_body": "Full Body",
     "plan_upper": "Upper body",
     "plan_lower": "Lower body & Core",
     "plan_push": "Push",
