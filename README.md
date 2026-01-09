@@ -15,16 +15,17 @@
 ### 🧠 Smart Training Generator
 * **Customizable Frequency:** Create plans ranging from **1 to 6 days** per week (Full Body, Upper/Lower, PPL, etc.).
 * **Equipment Filtering:** Filter exercises based on what you have available (Dumbbells, Barbell, Machines, Bodyweight, etc.).
+* **Difficulty Setting:** Filter exercises based on your training level).
 * **Advanced Settings:** Fine-tune volume by adjusting the number of exercises per muscle group via intuitive sliders.
 
 ### 📚 Comprehensive Exercise Database
 * **180+ Exercises:** A massive library covering all major muscle groups.
 * **Visual Guidance:** Includes text instructions and **YouTube integration** for video tutorials.
-* **Smart Filtering:** Sort by Muscle Group, Category (Push/Pull/Legs), or Equipment.
+* **Smart Filtering:** Sort by Muscle Group, Category (Push/Pull/Legs), Difficulty, or Equipment.
 
 ### 🎨 User Experience
 * **Dark & Light Mode:** Toggle themes to suit your environment.
-* **Bilingual Support:** Instantly switch between **English** and **German**.
+* **Multilingual Support:** Instantly switch between **English**, **German**, **Spanish** and **French**.
 * **Responsive Design:** Fully optimized for Desktop, Tablet, and Mobile usage.
 
 ### 🛠️ Customization & Tracking
