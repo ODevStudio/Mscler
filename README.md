@@ -66,7 +66,7 @@ The project maintains a clean structure without heavy `node_modules` or build st
 
 ```text
 Mscler/
-├── mscler.html      # Main application logic and UI structure
+├── mscler.html      # Main static ui parts and import of css and js
 ├── dist             # minified stylesheet and javasript for execution
 ├── src              # source files with clear names and destinction
 └── README.md        # Documentation
