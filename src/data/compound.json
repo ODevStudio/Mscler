@@ -1,0 +1,746 @@
+[
+  {
+    "internalName": "Reverse Cable Crossover (Rear Delt Fly)",
+    "primeMuscle": [
+      "Deltoid (Posterior)",
+      "Trapezius (Mid)",
+      "Rhomboids"
+    ]
+  },
+  {
+    "internalName": "Reverse Pec Deck (Rear Delt Fly)",
+    "primeMuscle": [
+      "Deltoid (Posterior)",
+      "Trapezius (Mid)",
+      "Rhomboids"
+    ]
+  },
+  {
+    "internalName": "Dumbbell Rear Delt Fly",
+    "primeMuscle": [
+      "Deltoid (Posterior)",
+      "Trapezius (Mid)",
+      "Rhomboids"
+    ]
+  },
+  {
+    "internalName": "Cable Y-Raise",
+    "primeMuscle": [
+      "Deltoid (Lateral)",
+      "Trapezius (Lower)",
+      "Trapezius (Mid)"
+    ]
+  },
+  {
+    "internalName": "Lean in Lateral Raises (Dumbbell)",
+    "primeMuscle": [
+      "Deltoid (Lateral)",
+      "Trapezius (Upper)"
+    ]
+  },
+  {
+    "internalName": "Front Raises (Dumbbell/Cable)",
+    "primeMuscle": [
+      "Deltoid (Anterior)",
+      "Pectoralis (Upper)"
+    ]
+  },
+  {
+    "internalName": "Dumbbell Pullover",
+    "primeMuscle": [
+      "Pectoralis (Outer/Stretch)",
+      "Latissimus dorsi",
+      "Triceps (Long Head)"
+    ]
+  },
+  {
+    "internalName": "Leg Curl Machine (Lying/Seated)",
+    "primeMuscle": [
+      "Hamstrings (Knee Flexion)",
+      "Gastrocnemius"
+    ]
+  },
+  {
+    "internalName": "Nordic Hamstring Curls",
+    "primeMuscle": [
+      "Hamstrings (Knee Flexion)",
+      "Gastrocnemius"
+    ]
+  },
+  {
+    "internalName": "45° Back Extension (Glute Focused)",
+    "primeMuscle": [
+      "Gluteus Maximus",
+      "Hamstrings (Hip Extension)"
+    ]
+  },
+  {
+    "internalName": "Bayesian Curl",
+    "primeMuscle": [
+      "Biceps Brachii (Short Head)",
+      "Biceps Brachii (Long Head)",
+      "Brachialis"
+    ]
+  },
+  {
+    "internalName": "Seated Super Bayesian High Cable Curl",
+    "primeMuscle": [
+      "Biceps Brachii (Short Head)",
+      "Biceps Brachii (Long Head)",
+      "Brachialis"
+    ]
+  },
+  {
+    "internalName": "Preacher Curls (Machine)",
+    "primeMuscle": [
+      "Biceps Brachii (Short Head)",
+      "Brachialis"
+    ]
+  },
+  {
+    "internalName": "Preacher Curls (Dumbbell)",
+    "primeMuscle": [
+      "Biceps Brachii (Short Head)",
+      "Brachialis"
+    ]
+  },
+  {
+    "internalName": "Preacher Curls (Barbell)",
+    "primeMuscle": [
+      "Biceps Brachii (Short Head)",
+      "Brachialis"
+    ]
+  },
+  {
+    "internalName": "Hammer Curls",
+    "primeMuscle": [
+      "Brachialis",
+      "Brachioradialis",
+      "Biceps Brachii (Long Head)",
+      "Biceps Brachii (Short Head)"
+    ]
+  },
+  {
+    "internalName": "Preacher Hammer Curl",
+    "primeMuscle": [
+      "Brachialis",
+      "Brachioradialis",
+      "Biceps Brachii (Short Head)"
+    ]
+  },
+  {
+    "internalName": "EZ Bar Bicep Curls",
+    "primeMuscle": [
+      "Biceps Brachii (Short Head)",
+      "Biceps Brachii (Long Head)",
+      "Brachialis"
+    ]
+  },
+  {
+    "internalName": "Standing Dumbbell Curl",
+    "primeMuscle": [
+      "Biceps Brachii (Long Head)",
+      "Biceps Brachii (Short Head)",
+      "Brachialis"
+    ]
+  },
+  {
+    "internalName": "Incline Dumbbell Curls",
+    "primeMuscle": [
+      "Biceps Brachii (Long Head)",
+      "Brachialis"
+    ]
+  },
+  {
+    "internalName": "Overhead Triceps Extension (Dumbbell)",
+    "primeMuscle": [
+      "Triceps (Long Head)",
+      "Triceps (Medial Head)",
+      "Triceps (Lateral Head)"
+    ]
+  },
+  {
+    "internalName": "Overhead Triceps Extension (Machine)",
+    "primeMuscle": [
+      "Triceps (Long Head)",
+      "Triceps (Medial Head)",
+      "Triceps (Lateral Head)"
+    ]
+  },
+  {
+    "internalName": "Cable Triceps Pushdown (Bar)",
+    "primeMuscle": [
+      "Triceps (Lateral Head)",
+      "Triceps (Medial Head)",
+      "Triceps (Long Head)"
+    ]
+  },
+  {
+    "internalName": "Cable Rope Pushdown",
+    "primeMuscle": [
+      "Triceps (Lateral Head)",
+      "Triceps (Medial Head)",
+      "Triceps (Long Head)"
+    ]
+  },
+  {
+    "internalName": "Barbell Shrugs",
+    "primeMuscle": [
+      "Trapezius (Upper)",
+      "Wrist Flexors",
+      "Finger Flexors"
+    ]
+  },
+  {
+    "internalName": "Dumbbell Shrugs",
+    "primeMuscle": [
+      "Trapezius (Upper)",
+      "Wrist Flexors",
+      "Finger Flexors"
+    ]
+  },
+  {
+    "internalName": "Dead Hang",
+    "primeMuscle": [
+      "Finger Flexors",
+      "Wrist Flexors",
+      "Brachioradialis",
+      "Latissimus dorsi"
+    ]
+  },
+  {
+    "internalName": "Barbell Back Squat",
+    "primeMuscle": [
+      "Vastus Lateralis",
+      "Vastus Medialis",
+      "Vastus Intermedius",
+      "Gluteus Maximus"
+    ]
+  },
+  {
+    "internalName": "Front Squat",
+    "primeMuscle": [
+      "Vastus Lateralis",
+      "Vastus Medialis",
+      "Vastus Intermedius",
+      "Gluteus Maximus"
+    ]
+  },
+  {
+    "internalName": "Smith Machine Squat",
+    "primeMuscle": [
+      "Vastus Lateralis",
+      "Vastus Medialis",
+      "Vastus Intermedius",
+      "Gluteus Maximus"
+    ]
+  },
+  {
+    "internalName": "Hack Squat",
+    "primeMuscle": [
+      "Vastus Lateralis",
+      "Vastus Medialis",
+      "Vastus Intermedius",
+      "Gluteus Maximus"
+    ]
+  },
+  {
+    "internalName": "Leg Press (45 Degree)",
+    "primeMuscle": [
+      "Vastus Lateralis",
+      "Vastus Medialis",
+      "Vastus Intermedius",
+      "Gluteus Maximus"
+    ]
+  },
+  {
+    "internalName": "Horizontal Leg Press",
+    "primeMuscle": [
+      "Vastus Lateralis",
+      "Vastus Medialis",
+      "Vastus Intermedius",
+      "Gluteus Maximus"
+    ]
+  },
+  {
+    "internalName": "Goblet Squat",
+    "primeMuscle": [
+      "Vastus Lateralis",
+      "Vastus Medialis",
+      "Vastus Intermedius",
+      "Gluteus Maximus"
+    ]
+  },
+  {
+    "internalName": "Bulgarian Split Squats (Dumbbell)",
+    "primeMuscle": [
+      "Vastus Lateralis",
+      "Vastus Medialis",
+      "Vastus Intermedius",
+      "Gluteus Maximus",
+      "Gluteus Medius"
+    ]
+  },
+  {
+    "internalName": "Bulgarian Split Squats (Bodyweight)",
+    "primeMuscle": [
+      "Vastus Lateralis",
+      "Vastus Medialis",
+      "Vastus Intermedius",
+      "Gluteus Maximus",
+      "Gluteus Medius"
+    ]
+  },
+  {
+    "internalName": "Walking Lunges",
+    "primeMuscle": [
+      "Gluteus Maximus",
+      "Gluteus Medius",
+      "Vastus Lateralis",
+      "Vastus Medialis"
+    ]
+  },
+  {
+    "internalName": "Smith Machine Lunge (Front Foot Elevated)",
+    "primeMuscle": [
+      "Gluteus Maximus",
+      "Vastus Lateralis",
+      "Vastus Medialis"
+    ]
+  },
+  {
+    "internalName": "Step-ups (Weighted)",
+    "primeMuscle": [
+      "Gluteus Maximus",
+      "Gluteus Medius",
+      "Vastus Lateralis",
+      "Vastus Medialis"
+    ]
+  },
+  {
+    "internalName": "Deadlift (Conventional/Sumo)",
+    "primeMuscle": [
+      "Gluteus Maximus",
+      "Erector Spinae",
+      "Hamstrings (Hip Extension)",
+      "Trapezius (Upper)"
+    ]
+  },
+  {
+    "internalName": "Barbell Romanian Deadlift (RDL)",
+    "primeMuscle": [
+      "Hamstrings (Hip Extension)",
+      "Gluteus Maximus",
+      "Erector Spinae"
+    ]
+  },
+  {
+    "internalName": "Dumbbell Romanian Deadlift (RDL)",
+    "primeMuscle": [
+      "Hamstrings (Hip Extension)",
+      "Gluteus Maximus",
+      "Erector Spinae"
+    ]
+  },
+  {
+    "internalName": "Single-Leg Romanian Deadlift (SLRDL)",
+    "primeMuscle": [
+      "Hamstrings (Hip Extension)",
+      "Gluteus Maximus",
+      "Gluteus Medius"
+    ]
+  },
+  {
+    "internalName": "Stiff-Legged Deadlift",
+    "primeMuscle": [
+      "Hamstrings (Hip Extension)",
+      "Gluteus Maximus",
+      "Erector Spinae"
+    ]
+  },
+  {
+    "internalName": "Good Mornings",
+    "primeMuscle": [
+      "Hamstrings (Hip Extension)",
+      "Gluteus Maximus",
+      "Erector Spinae"
+    ]
+  },
+  {
+    "internalName": "Glute-Ham Raise (GHR)",
+    "primeMuscle": [
+      "Hamstrings (Knee Flexion)",
+      "Hamstrings (Hip Extension)",
+      "Gluteus Maximus"
+    ]
+  },
+  {
+    "internalName": "Cable Pull Through",
+    "primeMuscle": [
+      "Hamstrings (Hip Extension)",
+      "Gluteus Maximus"
+    ]
+  },
+  {
+    "internalName": "Barbell Hip Thrust",
+    "primeMuscle": [
+      "Gluteus Maximus"
+    ]
+  },
+  {
+    "internalName": "Machine Hip Thrust",
+    "primeMuscle": [
+      "Gluteus Maximus"
+    ]
+  },
+  {
+    "internalName": "Barbell Glute Bridge",
+    "primeMuscle": [
+      "Gluteus Maximus"
+    ]
+  },
+  {
+    "internalName": "Single-Leg Dumbbell Hip Thrust",
+    "primeMuscle": [
+      "Gluteus Maximus",
+      "Gluteus Medius"
+    ]
+  },
+  {
+    "internalName": "Pull-ups / Chin-ups",
+    "primeMuscle": [
+      "Latissimus dorsi",
+      "Rhomboids",
+      "Trapezius (Lower)",
+      "Biceps Brachii (Short Head)",
+      "Biceps Brachii (Long Head)"
+    ]
+  },
+  {
+    "internalName": "Lat Pulldown (Various Grips)",
+    "primeMuscle": [
+      "Latissimus dorsi",
+      "Trapezius (Lower)",
+      "Biceps Brachii (Short Head)"
+    ]
+  },
+  {
+    "internalName": "Barbell Row / Pendlay Row",
+    "primeMuscle": [
+      "Rhomboids",
+      "Trapezius (Mid)",
+      "Latissimus dorsi",
+      "Deltoid (Posterior)",
+      "Biceps Brachii (Short Head)"
+    ]
+  },
+  {
+    "internalName": "T-Bar Row",
+    "primeMuscle": [
+      "Rhomboids",
+      "Trapezius (Mid)",
+      "Latissimus dorsi",
+      "Biceps Brachii (Short Head)"
+    ]
+  },
+  {
+    "internalName": "Seated Cable Row",
+    "primeMuscle": [
+      "Rhomboids",
+      "Trapezius (Mid)",
+      "Latissimus dorsi",
+      "Deltoid (Posterior)",
+      "Biceps Brachii (Short Head)"
+    ]
+  },
+  {
+    "internalName": "Chest Supported Row (Machine)",
+    "primeMuscle": [
+      "Rhomboids",
+      "Trapezius (Mid)",
+      "Latissimus dorsi",
+      "Deltoid (Posterior)",
+      "Biceps Brachii (Short Head)"
+    ]
+  },
+  {
+    "internalName": "Machine Row (Various)",
+    "primeMuscle": [
+      "Rhomboids",
+      "Trapezius (Mid)",
+      "Latissimus dorsi",
+      "Deltoid (Posterior)",
+      "Biceps Brachii (Short Head)"
+    ]
+  },
+  {
+    "internalName": "Single-Arm Dumbbell Row",
+    "primeMuscle": [
+      "Latissimus dorsi",
+      "Rhomboids",
+      "Deltoid (Posterior)",
+      "Biceps Brachii (Short Head)"
+    ]
+  },
+  {
+    "internalName": "Meadows Row",
+    "primeMuscle": [
+      "Rhomboids",
+      "Trapezius (Mid)",
+      "Latissimus dorsi",
+      "Deltoid (Posterior)",
+      "Biceps Brachii (Short Head)"
+    ]
+  },
+  {
+    "internalName": "Helms Row",
+    "primeMuscle": [
+      "Latissimus dorsi",
+      "Rhomboids",
+      "Deltoid (Posterior)",
+      "Biceps Brachii (Short Head)"
+    ]
+  },
+  {
+    "internalName": "Smith Machine Row",
+    "primeMuscle": [
+      "Latissimus dorsi",
+      "Rhomboids",
+      "Deltoid (Posterior)",
+      "Biceps Brachii (Short Head)"
+    ]
+  },
+  {
+    "internalName": "Chest Supported Incline DB Row",
+    "primeMuscle": [
+      "Latissimus dorsi",
+      "Rhomboids",
+      "Trapezius (Mid)",
+      "Deltoid (Posterior)",
+      "Biceps Brachii (Short Head)"
+    ]
+  },
+  {
+    "internalName": "Inverted Row",
+    "primeMuscle": [
+      "Rhomboids",
+      "Trapezius (Mid)",
+      "Latissimus dorsi",
+      "Deltoid (Posterior)",
+      "Biceps Brachii (Short Head)"
+    ]
+  },
+  {
+    "internalName": "Barbell Bench Press",
+    "primeMuscle": [
+      "Pectoralis (Mid)",
+      "Deltoid (Anterior)",
+      "Triceps (Lateral Head)",
+      "Triceps (Medial Head)"
+    ]
+  },
+  {
+    "internalName": "Wide-Grip Barbell Bench Press",
+    "primeMuscle": [
+      "Pectoralis (Mid)",
+      "Pectoralis (Outer/Stretch)",
+      "Deltoid (Anterior)"
+    ]
+  },
+  {
+    "internalName": "Dumbbell Press",
+    "primeMuscle": [
+      "Pectoralis (Mid)",
+      "Deltoid (Anterior)",
+      "Triceps (Lateral Head)",
+      "Triceps (Medial Head)"
+    ]
+  },
+  {
+    "internalName": "Chest Press Machine",
+    "primeMuscle": [
+      "Pectoralis (Mid)",
+      "Deltoid (Anterior)",
+      "Triceps (Lateral Head)"
+    ]
+  },
+  {
+    "internalName": "Smith Machine Bench Press",
+    "primeMuscle": [
+      "Pectoralis (Mid)",
+      "Pectoralis (Lower)",
+      "Deltoid (Anterior)",
+      "Triceps (Lateral Head)"
+    ]
+  },
+  {
+    "internalName": "Incline Barbell Bench Press",
+    "primeMuscle": [
+      "Pectoralis (Upper)",
+      "Deltoid (Anterior)",
+      "Triceps (Lateral Head)"
+    ]
+  },
+  {
+    "internalName": "Incline Dumbbell Press",
+    "primeMuscle": [
+      "Pectoralis (Upper)",
+      "Deltoid (Anterior)",
+      "Triceps (Lateral Head)"
+    ]
+  },
+  {
+    "internalName": "Incline Smith Machine Bench Press",
+    "primeMuscle": [
+      "Pectoralis (Upper)",
+      "Deltoid (Anterior)",
+      "Triceps (Lateral Head)"
+    ]
+  },
+  {
+    "internalName": "Landmine Press",
+    "primeMuscle": [
+      "Pectoralis (Upper)",
+      "Deltoid (Anterior)",
+      "Triceps (Lateral Head)"
+    ]
+  },
+  {
+    "internalName": "Parallel Bar Dips (Chest Focused)",
+    "primeMuscle": [
+      "Pectoralis (Lower)",
+      "Deltoid (Anterior)",
+      "Triceps (Lateral Head)",
+      "Triceps (Medial Head)"
+    ]
+  },
+  {
+    "internalName": "Machine Dips",
+    "primeMuscle": [
+      "Triceps (Lateral Head)",
+      "Triceps (Medial Head)",
+      "Pectoralis (Lower)",
+      "Deltoid (Anterior)"
+    ]
+  },
+  {
+    "internalName": "Push up",
+    "primeMuscle": [
+      "Pectoralis (Mid)",
+      "Deltoid (Anterior)",
+      "Triceps (Lateral Head)",
+      "Triceps (Medial Head)"
+    ]
+  },
+  {
+    "internalName": "Deficit Pushup",
+    "primeMuscle": [
+      "Pectoralis (Mid)",
+      "Pectoralis (Outer/Stretch)",
+      "Deltoid (Anterior)",
+      "Triceps (Lateral Head)"
+    ]
+  },
+  {
+    "internalName": "Incline Pushup (Feet Elevated)",
+    "primeMuscle": [
+      "Pectoralis (Upper)",
+      "Deltoid (Anterior)",
+      "Triceps (Lateral Head)"
+    ]
+  },
+  {
+    "internalName": "Overhead Press (Barbell/Standing)",
+    "primeMuscle": [
+      "Deltoid (Anterior)",
+      "Deltoid (Lateral)",
+      "Triceps (Lateral Head)",
+      "Triceps (Medial Head)",
+      "Trapezius (Upper)"
+    ]
+  },
+  {
+    "internalName": "Dumbbell Shoulder Press (Seated/Standing)",
+    "primeMuscle": [
+      "Deltoid (Anterior)",
+      "Deltoid (Lateral)",
+      "Triceps (Lateral Head)"
+    ]
+  },
+  {
+    "internalName": "Machine Shoulder Press",
+    "primeMuscle": [
+      "Deltoid (Anterior)",
+      "Deltoid (Lateral)",
+      "Triceps (Lateral Head)"
+    ]
+  },
+  {
+    "internalName": "Arnold Press",
+    "primeMuscle": [
+      "Deltoid (Anterior)",
+      "Deltoid (Lateral)",
+      "Triceps (Lateral Head)"
+    ]
+  },
+  {
+    "internalName": "Elevated Pike Press",
+    "primeMuscle": [
+      "Deltoid (Anterior)",
+      "Deltoid (Lateral)",
+      "Triceps (Long Head)",
+      "Triceps (Lateral Head)"
+    ]
+  },
+  {
+    "internalName": "Upright Row (Wide Grip/EZ Bar)",
+    "primeMuscle": [
+      "Deltoid (Lateral)",
+      "Trapezius (Upper)",
+      "Biceps Brachii (Short Head)"
+    ]
+  },
+  {
+    "internalName": "Face Pulls",
+    "primeMuscle": [
+      "Deltoid (Posterior)",
+      "Rhomboids",
+      "Rotator Cuff"
+    ]
+  },
+  {
+    "internalName": "Close-Grip Bench Press",
+    "primeMuscle": [
+      "Triceps (Lateral Head)",
+      "Triceps (Medial Head)",
+      "Triceps (Long Head)",
+      "Deltoid (Anterior)",
+      "Pectoralis (Mid)"
+    ]
+  },
+  {
+    "internalName": "Dips (Triceps Focused)",
+    "primeMuscle": [
+      "Triceps (Lateral Head)",
+      "Triceps (Medial Head)",
+      "Triceps (Long Head)",
+      "Deltoid (Anterior)"
+    ]
+  },
+  {
+    "internalName": "Diamond Pushups",
+    "primeMuscle": [
+      "Triceps (Lateral Head)",
+      "Triceps (Medial Head)",
+      "Deltoid (Anterior)",
+      "Pectoralis (Mid)"
+    ]
+  },
+  {
+    "internalName": "Ab-Wheel Rollout",
+    "primeMuscle": [
+      "Rectus Abdominis",
+      "Latissimus dorsi"
+    ]
+  }
+]

@@ -28,7 +28,7 @@ export default {
     "exercises_btn": "Übungen",
     "training_btn": "Training",
     "difficulty_level": "Schwierigkeitsgrad",
-    "plan_full_body": "Ganzkörper",
+    "plan_full_body": "Ganzkörpertraining mit kombiniertem Ansatz.",
     "plan_upper": "Oberkörper",
     "plan_lower": "Unterkörper & Rumpf",
     "plan_push": "Push",

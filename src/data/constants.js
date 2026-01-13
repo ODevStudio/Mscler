@@ -5,10 +5,10 @@ export const muscleSliderPresets = {
     "back": 1,
     "shoulders": 1,
     "biceps": 1,
-    "triceps": 0,
+    "triceps": 1,
     "quadrizeps": 1,
     "hamstrings": 1,
-    "glutes": 0,
+    "glutes": 1,
     "calves": 0,
     "abs": 1,
     "forearm": 0

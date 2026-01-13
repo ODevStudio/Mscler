@@ -28,7 +28,7 @@ export default {
     "exercises_btn": "Exercises",
     "training_btn": "Training",
     "difficulty_level": "Difficulty Level",
-    "plan_full_body": "Full Body",
+    "plan_full_body": "Full Body (Compound Focus)",
     "plan_upper": "Upper body",
     "plan_lower": "Lower body & Core",
     "plan_push": "Push",
@@ -246,7 +246,7 @@ export default {
     },
     "39": {
       "name": "Cable Curls (Bar/Rope)",
-      "description": "Even resistance – a solid cable curl variation.",
+      "description": "Even resistance - a solid cable curl variation.",
       "steps": "1. Stand facing a low pulley cable machine, attaching a straight bar or rope attachment.<br><br>2. Grasp the attachment with an underhand grip (or neutral for rope), hands shoulder-width apart.<br><br>3. Keep your elbows tucked close to your sides and your upper arms stationary.<br><br>4. Curl the attachment upwards towards your shoulders, contracting your biceps forcefully at the top.<br><br>5. Slowly lower the attachment back to the starting position, controlling the eccentric phase."
     },
     "41": {

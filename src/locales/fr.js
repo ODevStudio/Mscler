@@ -28,7 +28,7 @@ export default {
     "exercises_btn": "Exercices",
     "training_btn": "Entraînement",
     "difficulty_level": "Niveau de difficulté",
-    "plan_full_body": "Corps entier",
+    "plan_full_body": "Corps entierEntraînement complet du corps avec approche composite.",
     "plan_upper": "Haut du corps",
     "plan_lower": "Bas du corps et tronc",
     "plan_push": "Poussée",
