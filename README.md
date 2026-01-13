@@ -19,6 +19,7 @@
 * **Equipment Filtering:** Filter exercises based on what you have available (Dumbbells, Barbell, Machines, Bodyweight, etc.).
 * **Difficulty Setting:** Filter exercises based on your training level).
 * **Advanced Settings:** Fine-tune volume by adjusting the number of exercises per muscle group via intuitive sliders.
+* **Compound focus:** If you choose one day a week it helps you with a compound focussed trainingsplan.
 
 ### 📚 Comprehensive Exercise Database
 * **180+ Exercises:** A massive library covering all major muscle groups.
@@ -71,7 +72,7 @@ The project maintains a clean structure without heavy `node_modules` or build st
 Mscler/
 ├── mscler.html      # Main static ui parts and import of css and js
 ├── dist             # minified stylesheet and javasript for execution
-├── src              # source files with clear names and destinction
+├── src              # source files. build with "bun build ./src/index.js --outdir ./dist --minify"
 └── README.md        # Documentation
 
 
