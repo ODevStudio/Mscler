@@ -135,6 +135,8 @@
             </div>
           </div>
           <button class="btn-success" id="generate">Generate training</button>
+          <button id="savePlanBtn" style="display:none; margin-left: 10px;">Save</button>
+          <button id="loadPlanBtn" style="display:none; margin-left: 10px;">Load</button>
         </div>
       </div>
       <br id="outputdiv">
@@ -156,6 +158,45 @@
     <div class="video-content">
       <button id="closeVideo">×</button>
       <iframe id="videoFrame" src="" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Save Plan Modal -->
+  <div id="saveModal" class="modal-overlay hidden">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h3>Save Training Plan</h3>
+            <button id="closeSaveModal" class="modal-close-btn">×</button>
+        </div>
+        <input type="text" id="planNameInput" class="modal-input" placeholder="Enter plan name">
+        <div style="display: flex; justify-content: flex-end;">
+            <button class="btn-success" id="confirmSavePlan">Save Plan</button>
+        </div>
+    </div>
+  </div>
+
+  <!-- Load Plan Modal -->
+  <div id="loadModal" class="modal-overlay hidden">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h3>Load Training Plan</h3>
+            <button id="closeLoadModal" class="modal-close-btn">×</button>
+        </div>
+        <div id="savedPlansList"></div>
+    </div>
+  </div>
+
+  <!-- Confirm Delete Modal -->
+  <div id="confirmDeleteModal" class="modal-overlay hidden">
+    <div class="modal-dialog" style="max-width: 350px;">
+        <div class="modal-header">
+            <h3>Confirm Delete</h3>
+        </div>
+        <p>Are you sure you want to delete this plan?</p>
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <button id="cancelDeleteBtn">Cancel</button>
+            <button id="confirmDeleteBtn" class="unwanted">Delete</button>
+        </div>
     </div>
   </div>
 

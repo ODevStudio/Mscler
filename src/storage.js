@@ -100,3 +100,32 @@ export function loadPlan() {
 export function saveAvailableEquipment(eq) {
     localStorage.setItem('savedAvailableEquipment', JSON.stringify(eq || []));
 }
+
+// User Saved Plans
+export function saveUserPlan(planData) {
+    const plans = getUserPlans();
+    if (plans.length >= 50) {
+        return false;
+    }
+    plans.push(planData);
+    localStorage.setItem('savedUserPlans', JSON.stringify(plans));
+    return true;
+}
+
+export function getUserPlans() {
+    try {
+        return JSON.parse(localStorage.getItem('savedUserPlans')) || [];
+    } catch (e) {
+        return [];
+    }
+}
+
+export function deleteUserPlan(index) {
+    const plans = getUserPlans();
+    if (index >= 0 && index < plans.length) {
+        plans.splice(index, 1);
+        localStorage.setItem('savedUserPlans', JSON.stringify(plans));
+        return true;
+    }
+    return false;
+}

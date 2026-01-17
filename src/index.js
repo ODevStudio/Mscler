@@ -1,6 +1,6 @@
 import './style.css';
 import { exercises, muscleSliderPresets, muscleGroups, muscleGroupTrans, muscleCategoryTrans, difficultyLevels } from './exercises.js';
-import { lang, setLanguageDirect, setThemeDirect, LS_LANG, LS_THEME, saveFavoritesToLocalStorage, restoreFavoritesFromLocalStorage, loadPlan, savePlan, saveAvailableEquipment } from './storage.js';
+import { lang, setLanguageDirect, setThemeDirect, LS_LANG, LS_THEME, saveFavoritesToLocalStorage, restoreFavoritesFromLocalStorage, loadPlan, savePlan, saveAvailableEquipment, saveUserPlan, getUserPlans, deleteUserPlan } from './storage.js';
 import { renderCategories, renderMuscleGroups, renderEquipment, renderAvailableEquipment, renderExercises, renderTrainingPlan, safeToggle, updateState, locales, renderDifficulty } from './ui.js';
 import { generatePlanLogic } from './logic.js';
 
@@ -50,7 +50,68 @@ document.addEventListener('DOMContentLoaded', () => {
              toggleTheme();
         });
     }
+
+    // Save/Load Buttons
+    const savePlanBtn = document.getElementById('savePlanBtn');
+    if (savePlanBtn) {
+        savePlanBtn.addEventListener('click', openSaveModal);
+    }
+
+    const loadPlanBtn = document.getElementById('loadPlanBtn');
+    if (loadPlanBtn) {
+        loadPlanBtn.addEventListener('click', openLoadModal);
+    }
+
+    const closeSaveModalBtn = document.getElementById('closeSaveModal');
+    if (closeSaveModalBtn) {
+        closeSaveModalBtn.addEventListener('click', closeSaveModal);
+    }
+
+    const confirmSavePlanBtn = document.getElementById('confirmSavePlan');
+    if (confirmSavePlanBtn) {
+        confirmSavePlanBtn.addEventListener('click', saveCurrentPlan);
+    }
+
+    const closeLoadModalBtn = document.getElementById('closeLoadModal');
+    if (closeLoadModalBtn) {
+        closeLoadModalBtn.addEventListener('click', closeLoadModal);
+    }
     
+    // Delete Confirmation Logic
+    let planToDeleteIndex = -1;
+    const confirmDeleteModal = document.getElementById('confirmDeleteModal');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+
+    if (confirmDeleteBtn) {
+        confirmDeleteBtn.addEventListener('click', () => {
+            if (planToDeleteIndex > -1) {
+                deleteUserPlan(planToDeleteIndex);
+                renderLoadList();
+                const plans = getUserPlans();
+                if (plans.length === 0) {
+                     document.getElementById('loadPlanBtn').style.display = 'none';
+                     closeLoadModal();
+                }
+                confirmDeleteModal.classList.add('hidden');
+                planToDeleteIndex = -1;
+            }
+        });
+    }
+
+    if (cancelDeleteBtn) {
+        cancelDeleteBtn.addEventListener('click', () => {
+            confirmDeleteModal.classList.add('hidden');
+            planToDeleteIndex = -1;
+        });
+    }
+    
+    // Wrapper to open confirmation
+    window.openDeleteConfirmation = function(index) {
+        planToDeleteIndex = index;
+        confirmDeleteModal.classList.remove('hidden');
+    }
+
     const daysRange = document.getElementById('daysRange');
     if (daysRange) {
         daysRange.addEventListener('input', (e) => {
@@ -133,6 +194,14 @@ function init() {
   if (plan && plan.length > 0) {
     toggleTrainingPlanForm();
     renderTrainingPlan(plan, plan.length, openVideo, shuffleExercise);
+    const saveBtn = document.getElementById('savePlanBtn');
+    if (saveBtn) saveBtn.style.display = 'inline-block';
+  }
+
+  const userPlans = getUserPlans();
+  if (userPlans && userPlans.length > 0) {
+      const loadBtn = document.getElementById('loadPlanBtn');
+      if (loadBtn) loadBtn.style.display = 'inline-block';
   }
 
   updateUILanguage();
@@ -259,6 +328,9 @@ function generateTrainingPlan() {
     
     savePlan(plan);
     renderTrainingPlan(plan, days, openVideo, shuffleExercise);
+    
+    const saveBtn = document.getElementById('savePlanBtn');
+    if (saveBtn) saveBtn.style.display = 'inline-block';
 }
 
 function shuffleExercise(dayIndex, exerciseIndex, muscleGroup, equipment) {
@@ -425,3 +497,154 @@ window.onscroll = function() {
         topbutton.style.display = "none";
     }
 };
+
+// --- Save/Load Logic ---
+
+function openSaveModal() {
+    document.getElementById('saveModal').classList.remove('hidden');
+    document.getElementById('planNameInput').value = '';
+    document.getElementById('planNameInput').focus();
+}
+
+function closeSaveModal() {
+    document.getElementById('saveModal').classList.add('hidden');
+}
+
+function saveCurrentPlan() {
+    const name = document.getElementById('planNameInput').value.trim();
+    if (!name) {
+        alert("Please enter a name.");
+        return;
+    }
+
+    const planData = {
+        name: name,
+        date: new Date().toISOString(),
+        plan: plan,
+        days: document.getElementById('daysRange').value,
+        availableEquipment: availableEquipment,
+        muscleSliderValues: muscleSliderValues,
+        selectedDifficulty: selectedDifficulty
+    };
+
+    if (!saveUserPlan(planData)) {
+        alert("Limit of 50 plans reached. Please delete some plans before saving.");
+        return;
+    }
+    closeSaveModal();
+    
+    const loadBtn = document.getElementById('loadPlanBtn');
+    if (loadBtn) loadBtn.style.display = 'inline-block';
+}
+
+function openLoadModal() {
+    renderLoadList();
+    document.getElementById('loadModal').classList.remove('hidden');
+}
+
+function closeLoadModal() {
+    document.getElementById('loadModal').classList.add('hidden');
+}
+
+function renderLoadList() {
+    const list = document.getElementById('savedPlansList');
+    list.innerHTML = '';
+    const plans = getUserPlans();
+
+    if (plans.length === 0) {
+        list.innerHTML = '<p>No saved plans.</p>';
+        return;
+    }
+
+    plans.forEach((p, index) => {
+        const row = document.createElement('div');
+        row.className = 'saved-plan-item';
+        
+        const info = document.createElement('div');
+        info.className = 'plan-info';
+        info.innerHTML = `<strong>${p.name}</strong><small>${new Date(p.date).toLocaleDateString()} • ${p.days} Days</small>`;
+        row.appendChild(info);
+
+        const btnGroup = document.createElement('div');
+        btnGroup.className = 'plan-actions';
+        
+        const loadBtn = document.createElement('button');
+        loadBtn.textContent = 'Load';
+        loadBtn.className = 'btn-success';
+        loadBtn.onclick = () => loadUserPlanWrapper(index);
+        
+        const delBtn = document.createElement('button');
+        delBtn.textContent = 'Delete';
+        delBtn.className = 'unwanted';
+        delBtn.onclick = () => deleteUserPlanWrapper(index);
+
+        btnGroup.appendChild(loadBtn);
+        btnGroup.appendChild(delBtn);
+        row.appendChild(btnGroup);
+
+        list.appendChild(row);
+    });
+}
+
+function loadUserPlanWrapper(index) {
+    const plans = getUserPlans();
+    const p = plans[index];
+    if (!p) return;
+
+    // Restore State
+    plan = p.plan;
+    availableEquipment = p.availableEquipment;
+    muscleSliderValues = p.muscleSliderValues;
+    selectedDifficulty = p.selectedDifficulty;
+    const days = parseInt(p.days);
+
+    // Update Days UI
+    const dayUnit = locales[lang].ui.days_unit || (lang === 'en' ? " days" : " Tage");
+    document.getElementById('daysValue').textContent = days + dayUnit;
+    document.getElementById('daysRange').value = days;
+    
+    // Restore difficulty UI
+    localStorage.setItem("selectedDifficulty", selectedDifficulty);
+    renderDifficulty(selectedDifficulty, onSelectDifficulty);
+
+    // Restore sliders
+    for (let key in muscleSliderValues) {
+        const slider = document.getElementById(key);
+        if (slider) {
+            slider.value = muscleSliderValues[key];
+            const display = slider.nextElementSibling;
+            if (display) display.textContent = muscleSliderValues[key];
+        }
+    }
+    
+    // Restore Equipment UI
+    renderAvailableEquipment(availableEquipment, onToggleEq);
+    renderEquipment(availableEquipment, onFilterEq);
+
+    // Save to current session storage
+    savePlan(plan);
+    localStorage.setItem("trainingDays", days.toString());
+    saveAvailableEquipment(availableEquipment);
+    localStorage.setItem("muscleSliderValues", JSON.stringify(muscleSliderValues));
+
+    renderTrainingPlan(plan, days, openVideo, shuffleExercise);
+    
+    const formContainer = document.getElementById('trainingPlanForm');
+    if (formContainer.style.display === 'none') {
+        toggleTrainingPlanForm();
+    }
+
+    closeLoadModal();
+    
+    document.getElementById('savePlanBtn').style.display = 'inline-block';
+}
+
+function deleteUserPlanWrapper(index) {
+
+    if (window.openDeleteConfirmation) {
+
+        window.openDeleteConfirmation(index);
+
+    }
+
+}
