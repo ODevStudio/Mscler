@@ -30,6 +30,7 @@
 * **Dark & Light Mode:** Toggle themes to suit your environment.
 * **Multilingual Support:** Instantly switch between **English**, **German**, **Spanish** and **French**.
 * **Responsive Design:** Fully optimized for Desktop, Tablet, and Mobile usage.
+* **Save system for training plans:** Up to 50 training plans can be saved for later usage.
 
 ### 🛠️ Customization & Tracking
 * **Favorites & Exclusion:** Mark exercises as favorites to prioritize them in the generator, or blacklist exercises you cannot perform.
