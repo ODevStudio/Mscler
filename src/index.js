@@ -186,16 +186,16 @@ function init() {
   if (toggleBtn) {
     switch (savedTheme) {
       case 'light':
-        toggleBtn.textContent = 'Dark mode';
+        toggleBtn.textContent = '\uD83C\uDF19';
         break;
       case 'dark':
-        toggleBtn.textContent = 'Glass mode';
+        toggleBtn.textContent = '💎';
         break;
       case 'glass':
-        toggleBtn.textContent = 'Light mode';
+        toggleBtn.textContent = '☀️';
         break;
       default:
-        toggleBtn.textContent = 'Dark mode';
+        toggleBtn.textContent = '\uD83C\uDF19';
     }
   }
 
@@ -437,20 +437,19 @@ function toggleTheme() {
     // Three-way cycle: light -> dark -> glass -> light
     let newTheme;
     let buttonText;
-
     switch (currentTheme) {
         case 'light':
             newTheme = 'dark';
-            buttonText = 'Glass mode';
+            buttonText = '💎';
             break;
         case 'dark':
             newTheme = 'glass';
-            buttonText = 'Light mode';
+            buttonText = '☀️';
             break;
         case 'glass':
         default:
             newTheme = 'light';
-            buttonText = 'Dark mode';
+            buttonText = '\uD83C\uDF19';
             break;
     }
 
@@ -487,8 +486,11 @@ function addLanguageToggleButton() {
   const toggleModeBtn = document.getElementById('toggleMode');
   if(!document.getElementById('toggleLang') && toggleModeBtn) {
       const langToggleBtn = document.createElement('button');
-      langToggleBtn.id = 'toggleLang';
-      langToggleBtn.textContent = lang.toUpperCase();
+      langToggleBtn.id = 'toggleLang';      
+      const langs = ['en', 'de', 'es', 'fr'];
+      const currentIndex = langs.indexOf(lang);
+      const newLang = langs[(currentIndex + 1) % langs.length];
+      langToggleBtn.textContent = newLang.toUpperCase();
       langToggleBtn.onclick = toggleLanguage;
       toggleModeBtn.parentNode.insertBefore(langToggleBtn, toggleModeBtn.nextSibling);
   }
@@ -498,10 +500,11 @@ function toggleLanguage() {
   const langs = ['en', 'de', 'es', 'fr'];
   const currentIndex = langs.indexOf(lang);
   const newLang = langs[(currentIndex + 1) % langs.length];
+  const newLang2 = langs[(currentIndex + 2) % langs.length];
   
   setLanguageDirect(newLang);
   const langToggleBtn = document.getElementById('toggleLang');
-  if (langToggleBtn) langToggleBtn.textContent = newLang.toUpperCase();
+  if (langToggleBtn) langToggleBtn.textContent = newLang2.toUpperCase();
   
   updateUILanguage();
   renderCategories(selectedCategory, onSelectCategory);
