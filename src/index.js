@@ -183,7 +183,21 @@ function init() {
   setThemeDirect(savedTheme);
 
   const toggleBtn = document.getElementById('toggleMode');
-  if (toggleBtn) toggleBtn.textContent = (savedTheme === 'dark') ? 'Light mode' : 'Dark mode';
+  if (toggleBtn) {
+    switch (savedTheme) {
+      case 'light':
+        toggleBtn.textContent = 'Dark mode';
+        break;
+      case 'dark':
+        toggleBtn.textContent = 'Glass mode';
+        break;
+      case 'glass':
+        toggleBtn.textContent = 'Light mode';
+        break;
+      default:
+        toggleBtn.textContent = 'Dark mode';
+    }
+  }
 
   restoreFavoritesFromLocalStorage(exercises);
 
@@ -418,16 +432,38 @@ function updateListTitle() {
 
 function toggleTheme() {
     const html = document.documentElement;
-    const currentTheme = html.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    const currentTheme = html.getAttribute('data-theme') || 'light';
+
+    // Three-way cycle: light -> dark -> glass -> light
+    let newTheme;
+    let buttonText;
+
+    switch (currentTheme) {
+        case 'light':
+            newTheme = 'dark';
+            buttonText = 'Glass mode';
+            break;
+        case 'dark':
+            newTheme = 'glass';
+            buttonText = 'Light mode';
+            break;
+        case 'glass':
+        default:
+            newTheme = 'light';
+            buttonText = 'Dark mode';
+            break;
+    }
+
     setThemeDirect(newTheme);
     const toggleBtn = document.getElementById('toggleMode');
-    if (toggleBtn) toggleBtn.textContent = (newTheme === 'dark') ? 'Light mode' : 'Dark mode';
+    if (toggleBtn) toggleBtn.textContent = buttonText;
 }
 
 function updateUILanguage() {
     const ui = locales[lang].ui;
     const elements = {
+        'toggleBtn': ui.exercises_btn,
+        'generate': ui.generate_training,
         'musclegrp': ui.muscle_groups,
         'category': ui.category,
         'devicefilter': ui.device_filter,

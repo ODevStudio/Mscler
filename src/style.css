@@ -42,6 +42,34 @@
 --youtube-border: #791a1a;
 }
 
+[data-theme="glass"] {
+  --primary-color: #0a84ff;
+  --secondary-color: #e5e5e7;
+  --header-color: rgba(255, 255, 255, 0.15);
+  --background-color: transparent;
+  --card-background: rgba(255, 255, 255, 0.12);
+  --sidebar-background: rgba(255, 255, 255, 0.08);
+  --border-color: rgba(255, 255, 255, 0.2);
+  --text-color: #ffffff;
+  --etp-color: #ffffff;
+  --button-color: rgba(255, 255, 255, 0.15);
+  --hover-color: rgba(255, 255, 255, 0.25);
+  --active-color: rgba(10, 132, 255, 0.8);
+  --active-hover-color: rgba(10, 132, 255, 0.9);
+  --favorite-color: rgba(255, 214, 10, 0.7);
+  --favorite-hover-color: rgba(255, 214, 10, 0.85);
+  --unwanted-color: rgba(255, 69, 58, 0.7);
+  --unwanted-hover-color: rgba(255, 69, 58, 0.85);
+  --youtube: rgba(255, 69, 58, 0.8);
+  --youtube-border: rgba(255, 69, 58, 0.6);
+
+  /* Glass-specific variables */
+  --glass-blur: 20px;
+  --glass-border: 1px solid rgba(255, 255, 255, 0.18);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  --glass-inner-glow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
 * {box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif;}
 .container{
   max-width:1200px;
@@ -98,6 +126,23 @@ body {
 background: var(--background-color);
 color: var(--text-color);
 padding: 20px;
+}
+
+/* Glass theme static gradient background */
+html {
+  min-height: 100%;
+}
+
+[data-theme="glass"] body {
+  background: linear-gradient(
+    135deg,
+    #1a1a2e 0%,
+    #16213e 25%,
+    #0f3460 50%,
+    #09213c 75%,
+    #1a1a2e 100%
+  );
+  background-attachment: fixed;
 }
 
 .bodymap path {
@@ -807,4 +852,201 @@ display: none;
 
 #confirmDeleteModal {
   z-index: 10000;
+}
+
+/* ========================================
+   GLASS THEME - Glassmorphism Styles
+   ======================================== */
+
+/* Glass theme - Cards */
+[data-theme="glass"] .card {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow), var(--glass-inner-glow);
+}
+
+[data-theme="glass"] .container {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* Glass theme - Header */
+[data-theme="glass"] .header-container {
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  border-bottom: var(--glass-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Glass theme - Buttons */
+[data-theme="glass"] button {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="glass"] button:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="glass"] button.active {
+  border-color: rgba(10, 132, 255, 0.5);
+  box-shadow: 0 0 20px rgba(10, 132, 255, 0.3);
+}
+
+/* Glass theme - Modals */
+[data-theme="glass"] .modal-dialog {
+  -webkit-backdrop-filter: blur(25px);
+  backdrop-filter: blur(25px);
+  border: var(--glass-border);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="glass"] .modal-overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Glass theme - Inputs */
+[data-theme="glass"] .modal-input,
+[data-theme="glass"] .log-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="glass"] .modal-input:focus,
+[data-theme="glass"] .log-input:focus {
+  border-color: rgba(10, 132, 255, 0.5);
+  box-shadow: 0 0 15px rgba(10, 132, 255, 0.25);
+}
+
+/* Glass theme - Tooltips & Panels */
+[data-theme="glass"] .tooltip,
+[data-theme="glass"] .log-panel {
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* Glass theme - Exercise card */
+[data-theme="glass"] .exercise-card {
+  border-left-color: rgba(10, 132, 255, 0.7);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+/* Glass theme - Saved plan items */
+[data-theme="glass"] .saved-plan-item {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="glass"] .saved-plan-item:hover {
+  border-color: rgba(10, 132, 255, 0.5);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Glass theme - Tips section */
+[data-theme="glass"] .tips {
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  border: var(--glass-border);
+}
+
+/* Glass theme - Range slider */
+[data-theme="glass"] input[type="range"] {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+}
+
+[data-theme="glass"] input[type="range"]::-webkit-slider-thumb {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Glass theme - Advanced content */
+[data-theme="glass"] .advanced-content {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+/* Glass theme - Video modal */
+[data-theme="glass"] .video-modal {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="glass"] .video-content {
+  border: var(--glass-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Glass theme - Scrollbar */
+[data-theme="glass"] #savedPlansList::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Glass theme - Sidebar */
+[data-theme="glass"] .sidebar {
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  border: var(--glass-border);
+}
+
+/* Glass theme - Top button fix */
+[data-theme="glass"] #topbtn {
+  position: fixed !important;
+  inset: 10px auto auto 130px !important;
+  z-index: 9999;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-color: rgba(25, 135, 84, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Glass theme - New plan indicator (replaces animated gradient border) */
+[data-theme="glass"] .gradient-border::after {
+  display: none;
+}
+
+[data-theme="glass"] .gradient-border {
+  /* Set initial state to the Blue Glow so it appears immediately */
+  box-shadow:
+    0 0 20px rgba(10, 132, 255, 0.4),
+    0 0 40px rgba(10, 132, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(10, 132, 255, 0.5);
+  
+  /* Use ease-out for a natural deceleration */
+  animation: glassSmoothFade 8s ease-out forwards;
+}
+
+@keyframes glassSmoothFade {
+  /* Start: Maximum Blue Glow */
+  0% {
+    box-shadow:
+      0 0 20px rgba(10, 132, 255, 0.4),
+      0 0 40px rgba(10, 132, 255, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-color: rgba(10, 132, 255, 0.5);
+  }
+  
+  /* End: Resting Glass State */
+  /* The browser will calculate the smooth steps between 0% and 100% automatically */
+  100% {
+    box-shadow:
+      0 0 20px rgba(10, 132, 255, 0),
+      0 0 40px rgba(10, 132, 255, 0),
+      inset 0 1px 0 rgba(255, 255, 255, 0);
+    border-color: rgba(255, 255, 255, 0);
+  }
 }

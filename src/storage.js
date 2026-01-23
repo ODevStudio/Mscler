@@ -12,7 +12,8 @@ export function setLanguageDirect(code) {
 
 export function setThemeDirect(mode) {
   const html = document.documentElement;
-  const newTheme = (mode === 'dark') ? 'dark' : 'light';
+  const validThemes = ['light', 'dark', 'glass'];
+  const newTheme = validThemes.includes(mode) ? mode : 'light';
   html.setAttribute('data-theme', newTheme);
   localStorage.setItem(LS_THEME, newTheme);
 }
