@@ -1,8 +1,12 @@
 import './style.css';
+import { driver } from './driver.js';
+import './driver.css';
 import { exercises, muscleSliderPresets, muscleGroups, muscleGroupTrans, muscleCategoryTrans, difficultyLevels } from './exercises.js';
 import { lang, setLanguageDirect, setThemeDirect, LS_LANG, LS_THEME, saveFavoritesToLocalStorage, restoreFavoritesFromLocalStorage, loadPlan, savePlan, saveAvailableEquipment, saveUserPlan, getUserPlans, deleteUserPlan } from './storage.js';
 import { renderCategories, renderMuscleGroups, renderEquipment, renderAvailableEquipment, renderExercises, renderTrainingPlan, safeToggle, updateState, locales, renderDifficulty } from './ui.js';
 import { generatePlanLogic } from './logic.js';
+
+import { startTour, updateTourLanguage } from './tour.js';
 
 // Global State (partially managed here, partially in ui.js for now due to refactor limits)
 let new_plan = false;
@@ -226,6 +230,10 @@ function init() {
   renderEquipment(availableEquipment, onFilterEq);
   renderAvailableEquipment(availableEquipment, onToggleEq);
   renderDifficulty(selectedDifficulty, onSelectDifficulty);
+
+  if (!localStorage.getItem('mscler_tour_seen')) {
+      setTimeout(() => startTour(), 500);
+  }
 }
 
 // --- Logic Handlers ---
@@ -521,6 +529,7 @@ function toggleLanguage() {
   updateFilteredExercises();
   updateListTitle();
   updateDaysValue(document.getElementById('daysRange').value);
+  updateTourLanguage();
 }
 
 function topFunction() {
