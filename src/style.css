@@ -133,18 +133,6 @@ html {
   min-height: 100%;
 }
 
-[data-theme="glass"] body {
-  background: linear-gradient(
-    135deg,
-    #1a1a2e 0%,
-    #16213e 25%,
-    #0f3460 50%,
-    #09213c 75%,
-    #1a1a2e 100%
-  );
-  background-attachment: fixed;
-}
-
 .bodymap path {
 fill: rgb(214, 212, 212); 
 transition: fill 0.3s ease; 
@@ -1048,5 +1036,42 @@ display: none;
       0 0 40px rgba(10, 132, 255, 0),
       inset 0 1px 0 rgba(255, 255, 255, 0);
     border-color: rgba(255, 255, 255, 0);
+  }
+}
+
+[data-theme="glass"] body {
+  background: transparent;
+  background-attachment: scroll;
+}
+[data-theme="glass"] body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: -2;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #09213c 75%, #1a1a2e 100%);
+  transform: translateZ(0);
+}
+
+@media (max-width: 768px) {
+  
+  [data-theme="glass"] .container,
+  [data-theme="glass"] .sidebar,
+  [data-theme="glass"] .tips {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+
+  [data-theme="glass"] .card,
+  [data-theme="glass"] .exercise-card,
+  [data-theme="glass"] .saved-plan-item {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.15); 
+    box-shadow: none !important; 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  [data-theme="glass"] button {
+      box-shadow: 0 0 0 1px transparent !important; 
   }
 }
