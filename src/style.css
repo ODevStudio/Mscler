@@ -861,7 +861,6 @@ display: none;
   box-shadow: var(--glass-shadow);
 }
 
-/* Glass theme - Header */
 [data-theme="glass"] .header-container {
   -webkit-backdrop-filter: blur(15px);
   backdrop-filter: blur(15px);
@@ -869,7 +868,6 @@ display: none;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Glass theme - Buttons */
 [data-theme="glass"] button {
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -887,7 +885,6 @@ display: none;
   box-shadow: 0 0 20px rgba(10, 132, 255, 0.3);
 }
 
-/* Glass theme - Modals */
 [data-theme="glass"] .modal-dialog {
   -webkit-backdrop-filter: blur(25px);
   backdrop-filter: blur(25px);
@@ -899,7 +896,6 @@ display: none;
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Glass theme - Inputs */
 [data-theme="glass"] .modal-input,
 [data-theme="glass"] .log-input {
   background: rgba(255, 255, 255, 0.1);
@@ -912,7 +908,6 @@ display: none;
   box-shadow: 0 0 15px rgba(10, 132, 255, 0.25);
 }
 
-/* Glass theme - Tooltips & Panels */
 [data-theme="glass"] .tooltip,
 [data-theme="glass"] .log-panel {
   -webkit-backdrop-filter: blur(15px);
@@ -921,7 +916,6 @@ display: none;
   box-shadow: var(--glass-shadow);
 }
 
-/* Glass theme - Exercise card */
 [data-theme="glass"] .exercise-card {
   border-left-color: rgba(10, 132, 255, 0.7);
   background: rgba(255, 255, 255, 0.05);
@@ -930,7 +924,6 @@ display: none;
   margin-bottom: 12px;
 }
 
-/* Glass theme - Saved plan items */
 [data-theme="glass"] .saved-plan-item {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -941,14 +934,12 @@ display: none;
   background: rgba(255, 255, 255, 0.12);
 }
 
-/* Glass theme - Tips section */
 [data-theme="glass"] .tips {
   -webkit-backdrop-filter: blur(15px);
   backdrop-filter: blur(15px);
   border: var(--glass-border);
 }
 
-/* Glass theme - Range slider */
 [data-theme="glass"] input[type="range"] {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 5px;
@@ -959,15 +950,14 @@ display: none;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Glass theme - Advanced content */
 [data-theme="glass"] .advanced-content {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   padding: 10px;
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-/* Glass theme - Video modal */
 [data-theme="glass"] .video-modal {
   background-color: rgba(0, 0, 0, 0.7);
 }
@@ -1001,25 +991,21 @@ display: none;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Glass theme - New plan indicator (replaces animated gradient border) */
 [data-theme="glass"] .gradient-border::after {
   display: none;
 }
 
 [data-theme="glass"] .gradient-border {
-  /* Set initial state to the Blue Glow so it appears immediately */
   box-shadow:
     0 0 20px rgba(10, 132, 255, 0.4),
     0 0 40px rgba(10, 132, 255, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(10, 132, 255, 0.5);
   
-  /* Use ease-out for a natural deceleration */
   animation: glassSmoothFade 8s ease-out forwards;
 }
 
 @keyframes glassSmoothFade {
-  /* Start: Maximum Blue Glow */
   0% {
     box-shadow:
       0 0 20px rgba(10, 132, 255, 0.4),
@@ -1028,8 +1014,6 @@ display: none;
     border-color: rgba(10, 132, 255, 0.5);
   }
   
-  /* End: Resting Glass State */
-  /* The browser will calculate the smooth steps between 0% and 100% automatically */
   100% {
     box-shadow:
       0 0 20px rgba(10, 132, 255, 0),
