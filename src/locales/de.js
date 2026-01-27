@@ -50,6 +50,16 @@ export default {
       "Pausiere für 1-3 Minuten zwischen den Sets, damit der Puls und die Muskeln sich erholen.",
       "Erhöhe die Gewichte, sobald du das Wiederholungslimit überschreiten kannst.",
       "Achte auf ausreichende Erholung zwischen den Trainingseinheiten."
+    ],
+    "tips_novice": [
+      "Wärme dich vor jedem Training gut auf (5-10 Minuten).",
+      "Wähle Gewichte, bei denen du am Ende jedes Satzes noch 1-2 saubere Wiederholungen schaffen könntest.",
+      "Führe jede Übung kontrolliert aus und konzentriere dich auf den arbeitenden Muskel.",
+      "An normalen Tagen 2-3 Sätze, 16-20 Wiederholungen für optimales Muskelwachstum.",
+      "Bei Stärketraining 2-3 Sätze, 14-16 Wiederholungen für optimale Entwicklung.",
+      "Pausiere für 1-3 Minuten zwischen den Sets, damit der Puls und die Muskeln sich erholen.",
+      "Erhöhe die Gewichte, sobald du das Wiederholungslimit überschreiten kannst.",
+      "Achte auf ausreichende Erholung zwischen den Trainingseinheiten."
     ]
   },
   "difficulty": {

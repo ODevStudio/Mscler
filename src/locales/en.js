@@ -50,6 +50,16 @@ export default {
       "Pause for 1-3 minutes between sets so that the pulse and muscles can recover.",
       "Increase the weights once you have overcome the repetition limit.",
       "Make sure you recover sufficiently between training sessions."
+    ],
+    "tips_novice": [
+      "Warm up well before each workout (5-10 minutes).",
+      "Choose weights where you could still perform 1-2 more clean repetitions at the end of each set.",
+      "Execute each exercise in a controlled manner and focus on the working muscle.",
+      "Normal training days, 2-3 sets, 16-20 repetitions for optimal muscle growth.",
+      "On special strength training 2-3 sets, 14-16 repetitions for optimal development.",
+      "Pause for 1-3 minutes between sets so that the pulse and muscles can recover.",
+      "Increase the weights once you have overcome the repetition limit.",
+      "Make sure you recover sufficiently between training sessions."
     ]
   },
   "difficulty": {

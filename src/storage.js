@@ -33,7 +33,14 @@ export function restoreFavoritesFromLocalStorage(exercises) {
   const stored = localStorage.getItem('exerciseFavorites');
   if (!stored) return;
 
-  const favoriteMap = JSON.parse(stored);
+  let favoriteMap;
+  try {
+    favoriteMap = JSON.parse(stored);
+  } catch (e) {
+    return;
+  }
+  if (!favoriteMap || typeof favoriteMap !== 'object') return;
+  // Intentional mutation: restores favorit state on shared exercise objects at init
   exercises.forEach(ex => {
     if (favoriteMap.hasOwnProperty(ex.id)) {
       ex.favorit = favoriteMap[ex.id];

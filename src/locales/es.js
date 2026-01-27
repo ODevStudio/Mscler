@@ -50,6 +50,16 @@ export default {
       "Descansa de 1 a 3 minutos entre series para que el pulso y los músculos se recuperen.",
       "Aumenta los pesos una vez que hayas superado el límite de repeticiones.",
       "Asegúrate de recuperarte lo suficiente entre sesiones de entrenamiento."
+    ],
+    "tips_novice": [
+      "Calienta bien antes de cada entrenamiento (5-10 minutos).",
+      "Elige pesos con los que todavía puedas realizar 1-2 repeticiones limpias más al final de cada serie.",
+      "Ejecuta cada ejercicio de manera controlada y concéntrate en el músculo que trabaja.",
+      "Días de entrenamiento normal: 2-3 series, 16-20 repeticiones para un crecimiento muscular óptimo.",
+      "En entrenamiento de fuerza especial: 2-3 series, 14-16 repeticiones para un desarrollo óptimo.",
+      "Descansa de 1 a 3 minutos entre series para que el pulso y los músculos se recuperen.",
+      "Aumenta los pesos una vez que hayas superado el límite de repeticiones.",
+      "Asegúrate de recuperarte lo suficiente entre sesiones de entrenamiento."
     ]
   },
   "difficulty": {

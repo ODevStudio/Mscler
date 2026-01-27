@@ -1,19 +1,30 @@
 import './style.css';
-import { driver } from './driver.js';
 import './driver.css';
-import { exercises, muscleSliderPresets, muscleGroups, muscleGroupTrans, muscleCategoryTrans, difficultyLevels } from './exercises.js';
+import { exercises, muscleSliderPresets, muscleGroupTrans, muscleCategoryTrans, difficultyLevels } from './exercises.js';
 import { lang, setLanguageDirect, setThemeDirect, LS_LANG, LS_THEME, saveFavoritesToLocalStorage, restoreFavoritesFromLocalStorage, loadPlan, savePlan, saveAvailableEquipment, saveUserPlan, getUserPlans, deleteUserPlan } from './storage.js';
-import { renderCategories, renderMuscleGroups, renderEquipment, renderAvailableEquipment, renderExercises, renderTrainingPlan, safeToggle, updateState, locales, renderDifficulty } from './ui.js';
+import { renderCategories, renderMuscleGroups, renderEquipment, renderAvailableEquipment, renderExercises, renderTrainingPlan, locales, renderDifficulty } from './ui.js';
 import { generatePlanLogic } from './logic.js';
-
 import { startTour, updateTourLanguage } from './tour.js';
 
-// Global State (partially managed here, partially in ui.js for now due to refactor limits)
-let new_plan = false;
+// Constants
+const DEFAULT_DIFFICULTY = "Advanced";
+const STORAGE_KEYS = {
+  LANG: 'etp_lang',
+  THEME: 'etp_theme',
+  FAVORITES: 'exerciseFavorites',
+  TRAINING_PLAN: 'savedTrainingPlan',
+  AVAILABLE_EQUIPMENT: 'savedAvailableEquipment',
+  USER_PLANS: 'savedUserPlans',
+  MUSCLE_SLIDER_VALUES: 'muscleSliderValues',
+  TRAINING_DAYS: 'trainingDays',
+  SELECTED_DIFFICULTY: 'selectedDifficulty'
+};
+
+// Global State
 let muscleSliderValues = {};
 let selectedCategory = "";
 let selectedMuscleGroup = "";
-let selectedDifficulty = "Advanced"; // Default
+let selectedDifficulty = DEFAULT_DIFFICULTY;
 let availableEquipment = [];
 let filteredExercises = [];
 let plan = [];
@@ -29,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const generateBtn = document.getElementById('generate');
     if(generateBtn) {
         generateBtn.addEventListener('click', () => {
-            new_plan = true; 
             generateTrainingPlan();
         });
     }
@@ -147,12 +157,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     addLanguageToggleButton();
-    
-    // Initialize sliders
-    const savedValues = localStorage.getItem("muscleSliderValues");
+});
+
+// Initialize sliders
+function restoreSliderValues() {
+    const savedValues = localStorage.getItem(STORAGE_KEYS.MUSCLE_SLIDER_VALUES);
     if (savedValues) {
-      muscleSliderValues = JSON.parse(savedValues);
+      try {
+        muscleSliderValues = JSON.parse(savedValues);
+      } catch (e) {
+        muscleSliderValues = {};
+      }
     }
+
     document.querySelectorAll(".muscle-slider input[type='range']").forEach(slider => {
       const id = slider.id;
       const savedValue = muscleSliderValues[id];
@@ -163,28 +180,32 @@ document.addEventListener('DOMContentLoaded', () => {
       muscleSliderValues[id] = value;
       slider.nextElementSibling.textContent = value;
     });
+}
 
-    const savedDays = localStorage.getItem("trainingDays");
-    if (savedDays) {
-        const days = parseInt(savedDays);
-        if (daysRange) {
-            daysRange.value = days;
-            document.getElementById('daysValue').textContent = days + (lang === 'en' ? " days" : " Tage");
-        }
+function restoreTrainingDays() {
+    const savedDays = localStorage.getItem(STORAGE_KEYS.TRAINING_DAYS);
+    const daysRange = document.getElementById('trainingDays');
+    if (daysRange) {
+        const days = savedDays ? parseInt(savedDays) : 3;
+        daysRange.value = days;
+        updateDaysValue(days);
     }
-});
+}
 
 // --- Initialization ---
 function init() {
   let savedLang  = localStorage.getItem(LS_LANG)  || 'en';
   const savedTheme = localStorage.getItem(LS_THEME) || 'light';
   
-  selectedDifficulty = localStorage.getItem("selectedDifficulty") || "Advanced";
+  selectedDifficulty = localStorage.getItem(STORAGE_KEYS.SELECTED_DIFFICULTY) || "Advanced";
 
   if (!locales[savedLang]) savedLang = 'en';
 
   setLanguageDirect(savedLang);
   setThemeDirect(savedTheme);
+
+  restoreSliderValues();
+  restoreTrainingDays();
 
   const toggleBtn = document.getElementById('toggleMode');
   if (toggleBtn) {
@@ -211,7 +232,7 @@ function init() {
 
   if (plan && plan.length > 0) {
     toggleTrainingPlanForm();
-    renderTrainingPlan(plan, plan.length, openVideo, shuffleExercise);
+    renderTrainingPlan(plan, plan.length, openVideo, shuffleExercise, selectedDifficulty);
     const saveBtn = document.getElementById('savePlanBtn');
     if (saveBtn) saveBtn.style.display = 'inline-block';
   }
@@ -257,7 +278,7 @@ function onSelectMuscle(muscle) {
 
 function onSelectDifficulty(difficulty) {
     selectedDifficulty = difficulty;
-    localStorage.setItem("selectedDifficulty", difficulty);
+    localStorage.setItem(STORAGE_KEYS.SELECTED_DIFFICULTY, difficulty);
     renderDifficulty(selectedDifficulty, onSelectDifficulty);
     updateFilteredExercises();
 }
@@ -296,7 +317,7 @@ function updateValue(slider) {
     const id = slider.id;
     muscleSliderValues[id] = value;
     slider.nextElementSibling.textContent = value;
-    localStorage.setItem("muscleSliderValues", JSON.stringify(muscleSliderValues));
+    localStorage.setItem(STORAGE_KEYS.MUSCLE_SLIDER_VALUES, JSON.stringify(muscleSliderValues));
 }
 
 function updateDaysValue(val) {
@@ -344,12 +365,12 @@ function toggleTrainingPlanForm() {
 
 function generateTrainingPlan() {
     const days = parseInt(document.getElementById('daysRange').value);
-    localStorage.setItem("trainingDays", days.toString());
+    localStorage.setItem(STORAGE_KEYS.TRAINING_DAYS, days.toString());
     
     plan = generatePlanLogic(days, availableEquipment, muscleSliderValues, selectedDifficulty);
     
     savePlan(plan);
-    renderTrainingPlan(plan, days, openVideo, shuffleExercise);
+    renderTrainingPlan(plan, days, openVideo, shuffleExercise, selectedDifficulty);
     
     const saveBtn = document.getElementById('savePlanBtn');
     if (saveBtn) saveBtn.style.display = 'inline-block';
@@ -389,11 +410,10 @@ function shuffleExercise(dayIndex, exerciseIndex, muscleGroup, equipment) {
     
     if (topAlternatives.length > 0) {
         const randomIndex = Math.floor(Math.random() * topAlternatives.length);
+        // Intentional mutation: replaces exercise in shared plan array (plan is global state)
         day.exercises[exerciseIndex] = topAlternatives[randomIndex];
         savePlan(plan);
-        renderTrainingPlan(plan, plan.length, openVideo, shuffleExercise);
-    } else {
-        console.log("No alternative found.");
+        renderTrainingPlan(plan, plan.length, openVideo, shuffleExercise, selectedDifficulty);
     }
 }
 
@@ -417,6 +437,7 @@ function updateFilteredExercises() {
     
     renderExercises(filteredExercises, openVideo, (e, ex, val) => {
         e.stopPropagation();
+        // Intentional mutation: toggles favorit on shared exercise object (global exercises array)
         ex.favorit = ex.favorit === val ? 0 : val;
         updateFilteredExercises();
         saveFavoritesToLocalStorage(exercises);
@@ -520,7 +541,7 @@ function toggleLanguage() {
   renderAvailableEquipment(availableEquipment, onToggleEq);
   renderDifficulty(selectedDifficulty, onSelectDifficulty);
   if (plan && plan.length > 0) {
-      renderTrainingPlan(plan, localStorage.getItem("trainingDays") || plan.length, openVideo, shuffleExercise);
+      renderTrainingPlan(plan, localStorage.getItem(STORAGE_KEYS.TRAINING_DAYS) || plan.length, openVideo, shuffleExercise, selectedDifficulty);
   }
   
   if (selectedCategory) {
@@ -610,7 +631,12 @@ function renderLoadList() {
         
         const info = document.createElement('div');
         info.className = 'plan-info';
-        info.innerHTML = `<strong>${p.name}</strong><small>${new Date(p.date).toLocaleDateString()} • ${p.days} Days</small>`;
+        const nameEl = document.createElement('strong');
+        nameEl.textContent = p.name;
+        const dateEl = document.createElement('small');
+        dateEl.textContent = `${new Date(p.date).toLocaleDateString()} \u2022 ${p.days} Days`;
+        info.appendChild(nameEl);
+        info.appendChild(dateEl);
         row.appendChild(info);
 
         const btnGroup = document.createElement('div');
@@ -652,7 +678,7 @@ function loadUserPlanWrapper(index) {
     document.getElementById('daysRange').value = days;
     
     // Restore difficulty UI
-    localStorage.setItem("selectedDifficulty", selectedDifficulty);
+    localStorage.setItem(STORAGE_KEYS.SELECTED_DIFFICULTY, selectedDifficulty);
     renderDifficulty(selectedDifficulty, onSelectDifficulty);
 
     // Restore sliders
@@ -671,11 +697,11 @@ function loadUserPlanWrapper(index) {
 
     // Save to current session storage
     savePlan(plan);
-    localStorage.setItem("trainingDays", days.toString());
+    localStorage.setItem(STORAGE_KEYS.TRAINING_DAYS, days.toString());
     saveAvailableEquipment(availableEquipment);
-    localStorage.setItem("muscleSliderValues", JSON.stringify(muscleSliderValues));
+    localStorage.setItem(STORAGE_KEYS.MUSCLE_SLIDER_VALUES, JSON.stringify(muscleSliderValues));
 
-    renderTrainingPlan(plan, days, openVideo, shuffleExercise);
+    renderTrainingPlan(plan, days, openVideo, shuffleExercise, selectedDifficulty);
     
     const formContainer = document.getElementById('trainingPlanForm');
     if (formContainer.style.display === 'none') {

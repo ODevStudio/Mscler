@@ -50,6 +50,16 @@ export default {
       "Faites une pause de 1 à 3 minutes entre les séries pour que le pouls et les muscles puissent récupérer.",
       "Augmentez les poids une fois que vous avez dépassé la limite de répétitions.",
       "Assurez-vous de récupérer suffisamment entre les séances d'entraînement."
+    ],
+    "tips_novice": [
+      "Échauffez-vous bien avant chaque séance (5 à 10 minutes).",
+      "Choisissez des poids avec lesquels vous pourriez encore effectuer 1 à 2 répétitions propres à la fin de chaque série.",
+      "Exécutez chaque exercice de manière contrôlée et concentrez-vous sur le muscle qui travaille.",
+      "Jours d'entraînement normaux : 2-3 séries, 16-20 répétitions pour une croissance musculaire optimale.",
+      "En cas d'entraînement de force spécial : 2-3 séries, 14-16 répétitions pour un développement optimal.",
+      "Faites une pause de 1 à 3 minutes entre les séries pour que le pouls et les muscles puissent récupérer.",
+      "Augmentez les poids une fois que vous avez dépassé la limite de répétition.",
+      "Assurez-vous de bien récupérer entre les séances d'entraînement."
     ]
   },
   "difficulty": {

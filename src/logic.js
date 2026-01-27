@@ -1,9 +1,6 @@
 import { exercises, muscleSliderPresets, difficultyLevels } from './exercises.js';
 import compoundUpdates from './data/compound.json' assert { type: 'json' };
 
-export let compound = false;
-
-// Merge primeMuscle data from update.json for compound exercises (1-day plans only)
 function getCompoundEnhancedExercises(exerciseList) {
     return exerciseList.map(ex => {
         const update = compoundUpdates.find(u => u.internalName === ex.internalName);
@@ -14,18 +11,15 @@ function getCompoundEnhancedExercises(exerciseList) {
     });
 }
 
-// Select exercises for 1-day compound plans - global selection across all muscle groups
 function calculateCompoundScore(exercise, usedMuscles, primaryFocusMuscles, secondaryFocusMuscles) {
     let points = 0;
     const primeMuscles = exercise.primeMuscle || [];
 
     for (const muscle of primeMuscles) {
-        // ÄNDERUNG: Hole die aktuelle Anzahl der Nutzungen (0 falls noch nicht vorhanden)
         const usageCount = usedMuscles.get(muscle) || 0;
 
-        // ÄNDERUNG: Nur überspringen, wenn der Muskel schon 2-mal (oder öfter) benutzt wurde
-        if (usageCount >= 2) continue;
-        if (usageCount == 2){            
+        if (usageCount > 2) continue;
+        if (usageCount === 2){            
             if (primaryFocusMuscles.includes(muscle)) {
                 points += 1;
             } else if (secondaryFocusMuscles.includes(muscle)) {
@@ -44,23 +38,17 @@ function calculateCompoundScore(exercise, usedMuscles, primaryFocusMuscles, seco
     return (exercise.effectiveness + 10) * points;
 }
 
-// Select exercises for 1-day compound plans - global selection across all muscle groups
 function selectExercisesGlobalCompound(
     groupedExercises, 
     primaryFocusMuscles,
     secondaryFocusMuscles
 ) {
-    // ÄNDERUNG: Map statt Set, um die Häufigkeit zu zählen
     const usedMuscles = new Map(); 
     const selectedIds = new Set();
     const selectedPerGroup = {}; 
-
-    // Initialize selected arrays for each group
     for (const group of Object.keys(groupedExercises)) {
         selectedPerGroup[group] = [];
     }
-
-    // Calculate total exercises needed
     let totalNeeded = 0;
     for (const group of Object.keys(groupedExercises)) {
         totalNeeded += groupedExercises[group].targetCount;
@@ -71,8 +59,6 @@ function selectExercisesGlobalCompound(
         let bestExercise = null;
         let bestScore = -1;
         let bestGroup = null;
-
-        // Find best exercise across ALL groups that still need exercises
         for (const group of Object.keys(groupedExercises)) {
             const { exercises, targetCount } = groupedExercises[group];
 
@@ -84,7 +70,6 @@ function selectExercisesGlobalCompound(
 
             for (const ex of candidates) {
                 let score = 0;
-                // Hier wird nun die Map an calculateCompoundScore übergeben
                 const calculatedScore = calculateCompoundScore(ex, usedMuscles, primaryFocusMuscles, secondaryFocusMuscles);
                 
                 if(ex.favorit === 1 && calculatedScore > 0){
@@ -262,348 +247,175 @@ export function selectExercisesForGroup(
     return selected.slice(0, targetCount);
 }
 
+function buildMuscleGroupArrays(availableExercises) {
+    const groups = ["Chest", "Shoulders", "Triceps", "Back", "Biceps",
+                    "Quadrizeps", "Hamstrings", "Glutes", "Calves", "Abs", "Forearm"];
+    const result = {};
+    for (const group of groups) {
+        result[group] = availableExercises.filter(ex => ex.muscleGroup === group);
+    }
+    return result;
+}
+
+function buildSubMuscleTargets() {
+    return {
+        Chest: ["Pectoralis (Mid)", "Pectoralis (Upper)", "Pectoralis (Lower)", "Pectoralis (Outer/Stretch)"],
+        Back: ["Latissimus dorsi", "Erector Spinae", "Trapezius (Mid)", "Trapezius (Lower)", "Rhomboids"],
+        Shoulders: ["Deltoid (Anterior)", "Deltoid (Lateral)", "Deltoid (Posterior)", "Trapezius (Upper)", "Rotator Cuff"],
+        Quadrizeps: ["Rectus Femoris", "Vastus Lateralis", "Vastus Medialis", "Vastus Intermedius"],
+        Hamstrings: ["Hamstrings (Knee Flexion)", "Hamstrings (Hip Extension)"],
+        Glutes: ["Gluteus Maximus", "Gluteus Medius", "Gluteus Minimus"],
+        Triceps: ["Triceps (Long Head)", "Triceps (Lateral Head)", "Triceps (Medial Head)"],
+        Biceps: ["Biceps Brachii (Long Head)", "Biceps Brachii (Short Head)", "Brachialis", "Brachioradialis"],
+        Calves: ["Gastrocnemius", "Soleus"],
+        Abs: ["Rectus Abdominis", "External Obliques", "Internal Obliques", "Transverse Abdominis"],
+        Forearm: ["Wrist Flexors", "Wrist Extensors", "Finger Flexors"],
+    };
+}
+
+function buildMuscleCounts(muscleSliderValues) {
+    return {
+        Chest: muscleSliderValues["chest"],
+        Back: muscleSliderValues["back"],
+        Shoulders: muscleSliderValues["shoulders"],
+        Biceps: muscleSliderValues["biceps"],
+        Triceps: muscleSliderValues["triceps"],
+        Quadrizeps: muscleSliderValues["quadrizeps"],
+        Hamstrings: muscleSliderValues["hamstrings"],
+        Glutes: muscleSliderValues["glutes"],
+        Calves: muscleSliderValues["calves"],
+        Abs: muscleSliderValues["abs"],
+        Forearm: muscleSliderValues["forearm"],
+    };
+}
+
+function buildDayExercises(groupArrays, subMuscleTargets, muscleCounts, groupNames, weeklySelectedIds) {
+    return groupNames.flatMap(name =>
+        selectExercisesForGroup(
+            groupArrays[name],
+            muscleCounts[name],
+            subMuscleTargets[name],
+            weeklySelectedIds,
+            false,
+            name
+        )
+    );
+}
+
+// Array order = exercise selection order (affects weeklySelectedIds accumulation).
+// The `day` field determines final plan ordering.
+// For 5-day plans, selection runs push/pull/legs first, then upper/lower,
+// but upper/lower are assigned to days 1-2 in the final plan.
+const DAY_CONFIGS = {
+    2: [
+        { day: 1, name: "plan_upper", groups: ["Chest", "Back", "Shoulders", "Biceps", "Triceps", "Forearm"] },
+        { day: 2, name: "plan_lower", groups: ["Quadrizeps", "Hamstrings", "Glutes", "Calves", "Abs"] },
+    ],
+    3: [
+        { day: 1, name: "plan_push", groups: ["Chest", "Shoulders", "Triceps"] },
+        { day: 2, name: "plan_pull", groups: ["Back", "Biceps", "Forearm"] },
+        { day: 3, name: "plan_legs", groups: ["Quadrizeps", "Hamstrings", "Glutes", "Calves", "Abs"] },
+    ],
+    4: [
+        { day: 1, name: "plan_upper_strength", groups: ["Chest", "Back", "Shoulders", "Biceps", "Triceps", "Forearm"] },
+        { day: 2, name: "plan_lower_strength", groups: ["Quadrizeps", "Hamstrings", "Glutes", "Calves", "Abs"] },
+        { day: 3, name: "plan_upper", groups: ["Chest", "Back", "Shoulders", "Biceps", "Triceps", "Forearm"] },
+        { day: 4, name: "plan_lower", groups: ["Quadrizeps", "Hamstrings", "Glutes", "Calves", "Abs"] },
+    ],
+    5: [
+        { day: 3, name: "plan_push", groups: ["Chest", "Shoulders", "Triceps"] },
+        { day: 4, name: "plan_pull", groups: ["Back", "Biceps", "Forearm"] },
+        { day: 5, name: "plan_legs", groups: ["Quadrizeps", "Hamstrings", "Glutes", "Calves", "Abs"] },
+        { day: 1, name: "plan_upper_strength", groups: ["Chest", "Back", "Shoulders", "Biceps", "Triceps", "Forearm"] },
+        { day: 2, name: "plan_lower_strength", groups: ["Quadrizeps", "Hamstrings", "Glutes", "Calves", "Abs"] },
+    ],
+    6: [
+        { day: 1, name: "plan_push_strength", groups: ["Chest", "Shoulders", "Triceps"] },
+        { day: 2, name: "plan_pull_strength", groups: ["Back", "Biceps", "Forearm"] },
+        { day: 3, name: "plan_legs_strength", groups: ["Quadrizeps", "Hamstrings", "Glutes", "Calves", "Abs"] },
+        { day: 4, name: "plan_push", groups: ["Chest", "Shoulders", "Triceps"] },
+        { day: 5, name: "plan_pull", groups: ["Back", "Biceps", "Forearm"] },
+        { day: 6, name: "plan_legs", groups: ["Quadrizeps", "Hamstrings", "Glutes", "Calves", "Abs"] },
+    ],
+};
+
+const PRIMARY_FOCUS_MUSCLES = [
+    "Pectoralis (Mid)", "Pectoralis (Upper)",
+    "Latissimus dorsi", "Erector Spinae",
+    "Deltoid (Anterior)", "Deltoid (Lateral)",
+    "Rectus Femoris", "Vastus Lateralis",
+    "Hamstrings (Knee Flexion)", "Hamstrings (Hip Extension)",
+    "Triceps (Long Head)", "Triceps (Lateral Head)",
+    "Biceps Brachii (Long Head)", "Biceps Brachii (Short Head)",
+    "Gluteus Maximus",
+    "Rectus Abdominis",
+];
+
+const SECONDARY_FOCUS_MUSCLES = [
+    "Pectoralis (Lower)", "Pectoralis (Outer/Stretch)",
+    "Trapezius (Mid)", "Trapezius (Lower)", "Rhomboids",
+    "Deltoid (Posterior)", "Trapezius (Upper)", "Rotator Cuff",
+    "Vastus Medialis", "Vastus Intermedius",
+    "Triceps (Medial Head)",
+    "Brachialis", "Brachioradialis",
+    "Gluteus Medius", "Gluteus Minimus",
+    "External Obliques", "Internal Obliques", "Transverse Abdominis",
+    "Gastrocnemius", "Soleus",
+    "Wrist Flexors", "Wrist Extensors", "Finger Flexors",
+];
+
+const COMPOUND_GROUP_ORDER = [
+    "Quadrizeps", "Chest", "Back", "Shoulders", "Biceps",
+    "Hamstrings", "Glutes", "Triceps", "Abs", "Forearm", "Calves"
+];
+
+function buildCompoundPlan(availableExercises, muscleCounts) {
+    const enhancedExercises = getCompoundEnhancedExercises(availableExercises);
+
+    const groupedExercises = {};
+    for (const group of COMPOUND_GROUP_ORDER) {
+        groupedExercises[group] = {
+            exercises: enhancedExercises.filter(ex => ex.muscleGroup === group),
+            targetCount: muscleCounts[group],
+        };
+    }
+
+    const selectedPerGroup = selectExercisesGlobalCompound(
+        groupedExercises, PRIMARY_FOCUS_MUSCLES, SECONDARY_FOCUS_MUSCLES
+    );
+
+    const exercisesDay1 = COMPOUND_GROUP_ORDER.flatMap(g => selectedPerGroup[g]);
+    return [{ day: 1, name: "plan_full_body", exercises: exercisesDay1 }];
+}
+
 export function generatePlanLogic(days, availableEquipment, muscleSliderValues, difficulty = "Advanced") {
-    // Filter by Equipment AND Difficulty
     const difficultyIndex = difficultyLevels.indexOf(difficulty);
-    const availableExercises = exercises.filter(ex => 
-        availableEquipment.includes(ex.equipment) && 
+    const availableExercises = exercises.filter(ex =>
+        availableEquipment.includes(ex.equipment) &&
         difficultyLevels.indexOf(ex.difficulty) <= difficultyIndex
     );
-    
-    // Group exercises
-    const pushBrust = availableExercises.filter(ex => ex.muscleGroup === "Chest");
-    const pushSchultern = availableExercises.filter(ex => ex.muscleGroup === "Shoulders");
-    const pushTriceps = availableExercises.filter(ex => ex.muscleGroup === "Triceps");
-    const pullRücken = availableExercises.filter(ex => ex.muscleGroup === "Back");
-    const pullBiceps = availableExercises.filter(ex => ex.muscleGroup === "Biceps");
-    const legQuadrizeps = availableExercises.filter(ex => ex.muscleGroup === "Quadrizeps");
-    const legHamstrings = availableExercises.filter(ex => ex.muscleGroup === "Hamstrings");
-    const legGesäß = availableExercises.filter(ex => ex.muscleGroup === "Glutes");
-    const legWaden = availableExercises.filter(ex => ex.muscleGroup === "Calves");
-    const coreBauch = availableExercises.filter(ex => ex.muscleGroup === "Abs");
-    const pullForearm = availableExercises.filter(ex => ex.muscleGroup === "Forearm");
 
-    // Sub-muscles
-    const targetChestSubMuscles = ["Pectoralis (Mid)","Pectoralis (Upper)", "Pectoralis (Lower)","Pectoralis (Outer/Stretch)"];
-    const targetBackSubMuscles = ["Latissimus dorsi", "Erector Spinae", "Trapezius (Mid)", "Trapezius (Lower)","Rhomboids" ];
-    const targetShoulderSubMuscles = ["Deltoid (Anterior)", "Deltoid (Lateral)", "Deltoid (Posterior)", "Trapezius (Upper)","Rotator Cuff"];
-    const targetQuadSubMuscles = ["Rectus Femoris", "Vastus Lateralis", "Vastus Medialis", "Vastus Intermedius"];
-    const targetHamstringSubMuscles = ["Hamstrings (Knee Flexion)","Hamstrings (Hip Extension)" ];
-    const targetGluteSubMuscles = ["Gluteus Maximus", "Gluteus Medius", "Gluteus Minimus"];
-    const targetTricepsSubMuscles = ["Triceps (Long Head)", "Triceps (Lateral Head)", "Triceps (Medial Head)"];
-    const targetBicepsSubMuscles = ["Biceps Brachii (Long Head)", "Biceps Brachii (Short Head)", "Brachialis", "Brachioradialis"];
-    const targetCalfSubMuscles = ["Gastrocnemius", "Soleus"];
-    const targetAbsSubMuscles = ["Rectus Abdominis", "External Obliques", "Internal Obliques","Transverse Abdominis"];
-    const targetForearmSubMuscles = ["Wrist Flexors", "Wrist Extensors", "Finger Flexors"];
-    const primaryFocusMuscles = [
-    // Chest (First 2)
-    "Pectoralis (Mid)",
-    "Pectoralis (Upper)",
-    
-    // Back (First 2)
-    "Latissimus dorsi",
-    "Erector Spinae",
-    
-    // Shoulder (First 2)
-    "Deltoid (Anterior)",
-    "Deltoid (Lateral)",
-    
-    // Quad (First 2)
-    "Rectus Femoris",
-    "Vastus Lateralis",
-    
-    // Hamstring (First 2 - alle, da nur 2 vorhanden)
-    "Hamstrings (Knee Flexion)",
-    "Hamstrings (Hip Extension)",
-    
-    // Triceps (First 2)
-    "Triceps (Long Head)",
-    "Triceps (Lateral Head)",
-    
-    // Biceps (First 2)
-    "Biceps Brachii (Long Head)",
-    "Biceps Brachii (Short Head)",
-    
-    // Glute (First 1)
-    "Gluteus Maximus",
-    
-    // Abs (First 1)
-    "Rectus Abdominis"
-];
-const secondaryFocusMuscles = [
-    // Chest (Rest)
-    "Pectoralis (Lower)",
-    "Pectoralis (Outer/Stretch)",
-    
-    // Back (Rest)
-    "Trapezius (Mid)",
-    "Trapezius (Lower)",
-    "Rhomboids",
-    
-    // Shoulder (Rest)
-    "Deltoid (Posterior)",
-    "Trapezius (Upper)",
-    "Rotator Cuff",
-    
-    // Quad (Rest)
-    "Vastus Medialis",
-    "Vastus Intermedius",
-    
-    // Hamstring (Rest)
-    // Leer, da beide oben sind
-    
-    // Triceps (Rest)
-    "Triceps (Medial Head)",
-    
-    // Biceps (Rest)
-    "Brachialis",
-    "Brachioradialis",
-    
-    // Glute (Rest)
-    "Gluteus Medius",
-    "Gluteus Minimus",
-    
-    // Abs (Rest)
-    "External Obliques",
-    "Internal Obliques",
-    "Transverse Abdominis",
-    
-    // Calf (Complete Group)
-    "Gastrocnemius",
-    "Soleus",
-    
-    // Forearm (Complete Group)
-    "Wrist Flexors",
-    "Wrist Extensors",
-    "Finger Flexors"
-];
-
-    let plan = [];
-    let weeklySelectedIds = new Set();
-
-    const ChestCount = muscleSliderValues["chest"];
-    const BackCount =  muscleSliderValues["back"];
-    const ShoulderCount =  muscleSliderValues["shoulders"];
-    const BicepsCount =   muscleSliderValues["biceps"];
-    const TricepsCount =   muscleSliderValues["triceps"];
-    const QuadCount =  muscleSliderValues["quadrizeps"];
-    const HamstringCount =  muscleSliderValues["hamstrings"];
-    const GluteCount =  muscleSliderValues["glutes"];
-    const CalfCount =  muscleSliderValues["calves"];
-    const AbsCount =  muscleSliderValues["abs"];
-    const ForearmCount =  muscleSliderValues["forearm"];
-
+    const muscleCounts = buildMuscleCounts(muscleSliderValues);
 
     if (days === 1) {
-        // Enhanced exercises with compound primeMuscle data from update.json
-        const enhancedExercises = getCompoundEnhancedExercises(availableExercises);
-
-        // Build grouped exercises object for global selection
-        const groupedExercises = {
-            Quadrizeps: { exercises: enhancedExercises.filter(ex => ex.muscleGroup === "Quadrizeps"), targetCount: QuadCount },
-            Chest: { exercises: enhancedExercises.filter(ex => ex.muscleGroup === "Chest"), targetCount: ChestCount },
-            Back: { exercises: enhancedExercises.filter(ex => ex.muscleGroup === "Back"), targetCount: BackCount },
-            Shoulders: { exercises: enhancedExercises.filter(ex => ex.muscleGroup === "Shoulders"), targetCount: ShoulderCount },
-            Biceps: { exercises: enhancedExercises.filter(ex => ex.muscleGroup === "Biceps"), targetCount: BicepsCount },
-            Hamstrings: { exercises: enhancedExercises.filter(ex => ex.muscleGroup === "Hamstrings"), targetCount: HamstringCount },
-            Glutes: { exercises: enhancedExercises.filter(ex => ex.muscleGroup === "Glutes"), targetCount: GluteCount },
-            Triceps: { exercises: enhancedExercises.filter(ex => ex.muscleGroup === "Triceps"), targetCount: TricepsCount },
-            Abs: { exercises: enhancedExercises.filter(ex => ex.muscleGroup === "Abs"), targetCount: AbsCount },
-            Forearm: { exercises: enhancedExercises.filter(ex => ex.muscleGroup === "Forearm"), targetCount: ForearmCount },
-            Calves: { exercises: enhancedExercises.filter(ex => ex.muscleGroup === "Calves"), targetCount: CalfCount }
-        };
-
-        // Global selection - picks best exercise across ALL groups each iteration
-        const selectedPerGroup = selectExercisesGlobalCompound(groupedExercises, primaryFocusMuscles, secondaryFocusMuscles);
-
-        // Combine all selected exercises in order
-        const exercisesDay1 = [
-            ...selectedPerGroup.Quadrizeps,
-            ...selectedPerGroup.Chest,
-            ...selectedPerGroup.Back,
-            ...selectedPerGroup.Shoulders,
-            ...selectedPerGroup.Biceps,
-            ...selectedPerGroup.Hamstrings,
-            ...selectedPerGroup.Glutes,
-            ...selectedPerGroup.Triceps,
-            ...selectedPerGroup.Abs,
-            ...selectedPerGroup.Forearm,
-            ...selectedPerGroup.Calves
-        ];
-
-        plan = [{ day: 1, name: "plan_full_body", exercises: exercisesDay1 }];
-    } else if (days === 2) {
-        const upperDay = [
-        ...selectExercisesForGroup(pushBrust, ChestCount, targetChestSubMuscles, weeklySelectedIds,false,"Chest"),
-        ...selectExercisesForGroup(pullRücken, BackCount, targetBackSubMuscles, weeklySelectedIds,false,"Back"),
-        ...selectExercisesForGroup(pushSchultern, ShoulderCount, targetShoulderSubMuscles, weeklySelectedIds,false,"Shoulders"),
-        ...selectExercisesForGroup(pullBiceps, BicepsCount, targetBicepsSubMuscles, weeklySelectedIds,false,"Biceps"),
-        ...selectExercisesForGroup(pushTriceps, TricepsCount, targetTricepsSubMuscles, weeklySelectedIds,false,"Triceps"),
-        ...selectExercisesForGroup(pullForearm, ForearmCount, targetForearmSubMuscles, weeklySelectedIds,false,"Forearm"),
-        ];
-        const lowerDay = [
-        ...selectExercisesForGroup(legQuadrizeps, QuadCount, targetQuadSubMuscles, weeklySelectedIds,false,"Quadrizeps"),
-        ...selectExercisesForGroup(legHamstrings, HamstringCount, targetHamstringSubMuscles, weeklySelectedIds,false,"Hamstrings"),
-        ...selectExercisesForGroup(legGesäß, GluteCount, targetGluteSubMuscles, weeklySelectedIds,false,"Glutes"),
-        ...selectExercisesForGroup(legWaden, CalfCount, targetCalfSubMuscles, weeklySelectedIds,false,"Calves"),
-        ...selectExercisesForGroup(coreBauch, AbsCount, targetAbsSubMuscles, weeklySelectedIds,false,"Abs"),
-        ];
-        plan = [
-        { day: 1, name: "plan_upper", exercises: upperDay },
-        { day: 2, name: "plan_lower", exercises: lowerDay }
-        ];
-    } else if (days === 3) {
-        const pushDay = [
-          ...selectExercisesForGroup(pushBrust, ChestCount, targetChestSubMuscles, weeklySelectedIds,false,"Chest"),
-          ...selectExercisesForGroup(pushSchultern, ShoulderCount, targetShoulderSubMuscles, weeklySelectedIds,false,"Shoulders"),
-          ...selectExercisesForGroup(pushTriceps, TricepsCount, targetTricepsSubMuscles, weeklySelectedIds,false,"Triceps"),
-        ];
-        const pullDay = [
-        ...selectExercisesForGroup(pullRücken,BackCount, targetBackSubMuscles, weeklySelectedIds,false,"Back"),
-        ...selectExercisesForGroup(pullBiceps, BicepsCount, targetBicepsSubMuscles, weeklySelectedIds,false,"Biceps"),
-        ...selectExercisesForGroup(pullForearm, ForearmCount, targetForearmSubMuscles, weeklySelectedIds,false,"Forearm"),
-        ];
-        const legDay = [
-        ...selectExercisesForGroup(legQuadrizeps, QuadCount, targetQuadSubMuscles, weeklySelectedIds,false,"Quadrizeps"),
-        ...selectExercisesForGroup(legHamstrings, HamstringCount, targetHamstringSubMuscles, weeklySelectedIds,false,"Hamstrings"),
-        ...selectExercisesForGroup(legGesäß, GluteCount, targetGluteSubMuscles, weeklySelectedIds,false,"Glutes"),
-        ...selectExercisesForGroup(legWaden, CalfCount, targetCalfSubMuscles, weeklySelectedIds,false,"Calves"),
-        ...selectExercisesForGroup(coreBauch, AbsCount, targetAbsSubMuscles, weeklySelectedIds,false,"Abs"),
-        ];
-        plan = [
-        { day: 1, name: "plan_push", exercises: pushDay },
-        { day: 2, name: "plan_pull", exercises: pullDay },
-        { day: 3, name: "plan_legs", exercises: legDay }
-        ];
-    } else if (days === 4) {
-        const upperDay1 = [
-        ...selectExercisesForGroup(pushBrust, ChestCount, targetChestSubMuscles, weeklySelectedIds,false,"Chest"),
-        ...selectExercisesForGroup(pullRücken, BackCount, targetBackSubMuscles, weeklySelectedIds,false,"Back"),
-        ...selectExercisesForGroup(pushSchultern, ShoulderCount, targetShoulderSubMuscles, weeklySelectedIds,false,"Shoulders"),
-        ...selectExercisesForGroup(pullBiceps, BicepsCount, targetBicepsSubMuscles, weeklySelectedIds,false,"Biceps"),
-        ...selectExercisesForGroup(pushTriceps, TricepsCount, targetTricepsSubMuscles, weeklySelectedIds,false,"Triceps"),
-        ...selectExercisesForGroup(pullForearm, ForearmCount, targetForearmSubMuscles, weeklySelectedIds,false,"Forearm"),
-        ];
-        const lowerDay1 = [
-        ...selectExercisesForGroup(legQuadrizeps, QuadCount, targetQuadSubMuscles, weeklySelectedIds,false,"Quadrizeps"),
-        ...selectExercisesForGroup(legHamstrings, HamstringCount, targetHamstringSubMuscles, weeklySelectedIds,false,"Hamstrings"),
-        ...selectExercisesForGroup(legGesäß,  GluteCount, targetGluteSubMuscles, weeklySelectedIds,false,"Glutes"),
-        ...selectExercisesForGroup(legWaden,  CalfCount, targetCalfSubMuscles, weeklySelectedIds,false,"Calves"),
-        ...selectExercisesForGroup(coreBauch, AbsCount, targetAbsSubMuscles, weeklySelectedIds,false,"Abs"),
-        ];
-        const upperDay2 = [
-        ...selectExercisesForGroup(pushBrust,  ChestCount, targetChestSubMuscles, weeklySelectedIds,false,"Chest"),
-        ...selectExercisesForGroup(pullRücken, BackCount, targetBackSubMuscles, weeklySelectedIds,false,"Back"),
-        ...selectExercisesForGroup(pushSchultern, ShoulderCount, targetShoulderSubMuscles, weeklySelectedIds,false,"Shoulders"),
-        ...selectExercisesForGroup(pullBiceps, BicepsCount, targetBicepsSubMuscles, weeklySelectedIds,false,"Biceps"),
-        ...selectExercisesForGroup(pushTriceps, TricepsCount, targetTricepsSubMuscles, weeklySelectedIds,false,"Triceps"),
-        ...selectExercisesForGroup(pullForearm, ForearmCount, targetForearmSubMuscles, weeklySelectedIds,false,"Forearm"),
-        ];
-        const lowerDay2 = [
-        ...selectExercisesForGroup(legQuadrizeps, QuadCount, targetQuadSubMuscles, weeklySelectedIds,false,"Quadrizeps"),
-        ...selectExercisesForGroup(legHamstrings, HamstringCount, targetHamstringSubMuscles, weeklySelectedIds,false,"Hamstrings"),
-        ...selectExercisesForGroup(legGesäß, GluteCount, targetGluteSubMuscles, weeklySelectedIds,false,"Glutes"),
-        ...selectExercisesForGroup(legWaden, CalfCount, targetCalfSubMuscles, weeklySelectedIds,false,"Calves"),
-        ...selectExercisesForGroup(coreBauch, AbsCount, targetAbsSubMuscles, weeklySelectedIds,false,"Abs"),
-        ];
-
-        plan = [
-        { day: 1, name: "plan_upper_strength", exercises: upperDay1 },
-        { day: 2, name: "plan_lower_strength", exercises: lowerDay1 },
-        { day: 3, name: "plan_upper", exercises: upperDay2 }, 
-        { day: 4, name: "plan_lower", exercises: lowerDay2 }
-        ];
-    } else if (days === 5) {
-        const pushDay = [
-          ...selectExercisesForGroup(pushBrust, ChestCount, targetChestSubMuscles, weeklySelectedIds,false,"Chest"),
-          ...selectExercisesForGroup(pushSchultern, ShoulderCount, targetShoulderSubMuscles, weeklySelectedIds,false,"Shoulders"),
-          ...selectExercisesForGroup(pushTriceps, TricepsCount, targetTricepsSubMuscles, weeklySelectedIds,false,"Triceps"),
-        ];
-        const pullDay = [
-        ...selectExercisesForGroup(pullRücken,BackCount, targetBackSubMuscles, weeklySelectedIds,false,"Back"),
-        ...selectExercisesForGroup(pullBiceps, BicepsCount, targetBicepsSubMuscles, weeklySelectedIds,false,"Biceps"),
-        ...selectExercisesForGroup(pullForearm, ForearmCount, targetForearmSubMuscles, weeklySelectedIds,false,"Forearm"),
-        ];
-        const legDay = [
-        ...selectExercisesForGroup(legQuadrizeps, QuadCount, targetQuadSubMuscles, weeklySelectedIds,false,"Quadrizeps"),
-        ...selectExercisesForGroup(legHamstrings, HamstringCount, targetHamstringSubMuscles, weeklySelectedIds,false,"Hamstrings"),
-        ...selectExercisesForGroup(legGesäß, GluteCount, targetGluteSubMuscles, weeklySelectedIds,false,"Glutes"),
-        ...selectExercisesForGroup(legWaden, CalfCount, targetCalfSubMuscles, weeklySelectedIds,false,"Calves"),
-        ...selectExercisesForGroup(coreBauch, AbsCount, targetAbsSubMuscles, weeklySelectedIds,false,"Abs"),
-        ];
-
-        const upperDay = [
-        ...selectExercisesForGroup(pushBrust,  ChestCount, targetChestSubMuscles, weeklySelectedIds,false,"Chest"),
-        ...selectExercisesForGroup(pullRücken, BackCount, targetBackSubMuscles, weeklySelectedIds,false,"Back"),
-        ...selectExercisesForGroup(pushSchultern, ShoulderCount, targetShoulderSubMuscles, weeklySelectedIds,false,"Shoulders"),
-        ...selectExercisesForGroup(pullBiceps, BicepsCount, targetBicepsSubMuscles, weeklySelectedIds,false,"Biceps"),
-        ...selectExercisesForGroup(pushTriceps, TricepsCount, targetTricepsSubMuscles, weeklySelectedIds,false,"Triceps"),
-        ...selectExercisesForGroup(pullForearm, ForearmCount, targetForearmSubMuscles, weeklySelectedIds,false,"Forearm"),
-        ];
-
-        const lowerDay = [
-        ...selectExercisesForGroup(legQuadrizeps, QuadCount, targetQuadSubMuscles, weeklySelectedIds,false,"Quadrizeps"),
-        ...selectExercisesForGroup(legHamstrings, HamstringCount, targetHamstringSubMuscles, weeklySelectedIds,false,"Hamstrings"),
-        ...selectExercisesForGroup(legGesäß, GluteCount, targetGluteSubMuscles, weeklySelectedIds,false,"Glutes"),
-        ...selectExercisesForGroup(legWaden, CalfCount, targetCalfSubMuscles, weeklySelectedIds,false,"Calves"),
-        ...selectExercisesForGroup(coreBauch, AbsCount, targetAbsSubMuscles, weeklySelectedIds,false,"Abs"),
-        ];
-
-        plan = [
-        { day: 1, name: "plan_upper_strength", exercises: upperDay },
-        { day: 2, name: "plan_lower_strength", exercises: lowerDay },
-        { day: 3, name: "plan_push", exercises: pushDay },
-        { day: 4, name: "plan_pull", exercises: pullDay },
-        { day: 5, name: "plan_legs", exercises: legDay }
-        ];
-    } else if (days === 6) {
-        const pushDay1 = [
-          ...selectExercisesForGroup(pushBrust, ChestCount, targetChestSubMuscles, weeklySelectedIds,false,"Chest"),
-          ...selectExercisesForGroup(pushSchultern, ShoulderCount, targetShoulderSubMuscles, weeklySelectedIds,false,"Shoulders"),
-          ...selectExercisesForGroup(pushTriceps, TricepsCount, targetTricepsSubMuscles, weeklySelectedIds,false,"Triceps"),
-        ];
-        const pullDay1 = [
-        ...selectExercisesForGroup(pullRücken,BackCount, targetBackSubMuscles, weeklySelectedIds,false,"Back"),
-        ...selectExercisesForGroup(pullBiceps, BicepsCount, targetBicepsSubMuscles, weeklySelectedIds,false,"Biceps"),
-        ...selectExercisesForGroup(pullForearm, ForearmCount, targetForearmSubMuscles, weeklySelectedIds,false,"Forearm"),
-        ];
-        const legDay1 = [
-        ...selectExercisesForGroup(legQuadrizeps, QuadCount, targetQuadSubMuscles, weeklySelectedIds,false,"Quadrizeps"),
-        ...selectExercisesForGroup(legHamstrings, HamstringCount, targetHamstringSubMuscles, weeklySelectedIds,false,"Hamstrings"),
-        ...selectExercisesForGroup(legGesäß, GluteCount, targetGluteSubMuscles, weeklySelectedIds,false,"Glutes"),
-        ...selectExercisesForGroup(legWaden, CalfCount, targetCalfSubMuscles, weeklySelectedIds,false,"Calves"),
-        ...selectExercisesForGroup(coreBauch, AbsCount, targetAbsSubMuscles, weeklySelectedIds,false,"Abs"),
-        ];
-
-        const pushDay2 = [
-          ...selectExercisesForGroup(pushBrust, ChestCount, targetChestSubMuscles, weeklySelectedIds,false,"Chest"),
-          ...selectExercisesForGroup(pushSchultern, ShoulderCount, targetShoulderSubMuscles, weeklySelectedIds,false,"Shoulders"),
-          ...selectExercisesForGroup(pushTriceps, TricepsCount, targetTricepsSubMuscles, weeklySelectedIds,false,"Triceps"),
-        ];
-        const pullDay2 = [
-        ...selectExercisesForGroup(pullRücken,BackCount, targetBackSubMuscles, weeklySelectedIds,false,"Back"),
-        ...selectExercisesForGroup(pullBiceps, BicepsCount, targetBicepsSubMuscles, weeklySelectedIds,false,"Biceps"),
-        ...selectExercisesForGroup(pullForearm, ForearmCount, targetForearmSubMuscles, weeklySelectedIds,false,"Forearm"),
-        ];
-        const legDay2 = [
-        ...selectExercisesForGroup(legQuadrizeps, QuadCount, targetQuadSubMuscles, weeklySelectedIds,false,"Quadrizeps"),
-        ...selectExercisesForGroup(legHamstrings, HamstringCount, targetHamstringSubMuscles, weeklySelectedIds,false,"Hamstrings"),
-        ...selectExercisesForGroup(legGesäß, GluteCount, targetGluteSubMuscles, weeklySelectedIds,false,"Glutes"),
-        ...selectExercisesForGroup(legWaden, CalfCount, targetCalfSubMuscles, weeklySelectedIds,false,"Calves"),
-        ...selectExercisesForGroup(coreBauch, AbsCount, targetAbsSubMuscles, weeklySelectedIds,false,"Abs"),
-        ];
-
-        plan = [
-        { day: 1, name: "plan_push_strength", exercises: pushDay1 },
-        { day: 2, name: "plan_pull_strength", exercises: pullDay1 },
-        { day: 3, name: "plan_legs_strength", exercises: legDay1 },
-        { day: 4, name: "plan_push", exercises: pushDay2 },
-        { day: 5, name: "plan_pull", exercises: pullDay2 },
-        { day: 6, name: "plan_legs", exercises: legDay2 } 
-        ];
-    } else {
-        plan = [{ day: 1, name: "plan_none", exercises: [] }];
+        return buildCompoundPlan(availableExercises, muscleCounts);
     }
-    
+
+    const config = DAY_CONFIGS[days];
+    if (!config) {
+        return [{ day: 1, name: "plan_none", exercises: [] }];
+    }
+
+    const groupArrays = buildMuscleGroupArrays(availableExercises);
+    const subMuscleTargets = buildSubMuscleTargets();
+    const weeklySelectedIds = new Set();
+
+    const plan = config.map(dayConfig => ({
+        day: dayConfig.day,
+        name: dayConfig.name,
+        exercises: buildDayExercises(groupArrays, subMuscleTargets, muscleCounts, dayConfig.groups, weeklySelectedIds),
+    }));
+
+    plan.sort((a, b) => a.day - b.day);
     return plan;
 }

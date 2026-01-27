@@ -201,15 +201,15 @@ function getSteps(content) {
                 title: content.steps[3].title,
                 description: content.steps[3].description,
                 side: "bottom",
-                align: 'start'
-            },
-            onNextClick: () => {
-                 const btn = document.getElementById('toggleBtn');
-                 // Only click if we are not already in the form view
-                 if (document.getElementById('trainingPlanForm').style.display === 'none') {
-                     btn.click();
-                 }
-                 if(driverObj) driverObj.moveNext();
+                align: 'start',
+                onNextClick: () => {
+                     const btn = document.getElementById('toggleBtn');
+                     // Only click if we are not already in the form view
+                     if (document.getElementById('trainingPlanForm').style.display === 'none') {
+                         btn.click();
+                     }
+                     if(driverObj) driverObj.moveNext();
+                }
             }
         },
         {
